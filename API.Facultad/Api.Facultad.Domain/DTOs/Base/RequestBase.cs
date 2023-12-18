@@ -8,6 +8,6 @@ namespace Api.Facultad.Domain.DTOs.Base
 {
     public class RequestBase
     {
-        public string UserId { get; set; } = string.Empty;
+        public string IdUsuario { get; set; } = string.Empty;
     }
 }
