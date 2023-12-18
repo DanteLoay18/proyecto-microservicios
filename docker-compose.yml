@@ -1,0 +1,50 @@
+version: "1"
+
+services:
+  sql:
+    image: mcr.microsoft.com/mssql/server:2019-GA-ubuntu-16.04
+    container_name: database-sql
+    restart: always
+    ports:
+    - 1434:1433
+    environment:
+    - ACCEPT_EULA=Y
+    - SA_PASSWORD=Unu#2023
+    networks:
+    - td2023
+  postgres:
+    image: postgres:alpine3.14
+    container_name: database-postgres
+    restart: always
+    environment:
+    - POSTGRES_PASSWORD=Unu#2023
+    ports:
+    - 5433:5432
+    networks:
+    - td2023
+  mongo:
+    image: mongo:5.0.2
+    container_name: database-mongo
+    restart: always
+    environment:
+    - MONGO_INITDB_ROOT_USERNAME=admin
+    - MONGO_INITDB_ROOT_PASSWORD=Unu#2023
+    ports:
+    - 27018:27017
+    networks:
+    - td2023 
+  mysql:
+    image: mysql:8.0.26
+    container_name: database-mysql
+    restart: always
+    environment:
+    - MYSQL_ROOT_PASSWORD=Unu#2023
+    ports:
+    - 3307:3306
+    - 33061:33060
+    networks:
+    - td2023 
+networks:
+  td2023:
+    name: ms-unu
+
