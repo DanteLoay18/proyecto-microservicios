@@ -19,8 +19,4 @@
     <ProjectReference Include="..\Api.Facultad.Domain\Api.Facultad.Domain.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Features\Facultad\Command\" />
-  </ItemGroup>
-
 </Project>
