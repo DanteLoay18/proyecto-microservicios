@@ -1,5 +1,4 @@
-﻿using Api.Facultad.Application.Features.Facultad.Command.CreateFacultad;
-using Api.Facultad.Application.Features.Facultad.Command.UpdateFacultad;
+﻿
 using Api.Facultad.Application.Features.Facultad.Queries.GetFacultadById;
 using Api.Facultad.Application.Features.Facultad.Queries.GetFacultadesPaginated;
 using Api.Facultad.Application.Utils;
@@ -56,33 +55,6 @@ namespace API.Facultad.Controllers
 
         }
 
-        [HttpPost(ApiRoutes.Facultad.CreateFacultad)]
-        public async Task<ActionResult<ResponseBase>> CreateFacultad([FromBody] CreateFacultadCommand command)
-        {
-            try
-            {
-                return Ok(await _mediator.Send(command));
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "", ex.Message);
-                return ResponseUtil.BadRequest(ex.Message.ToString());
-            }
-        }
-
-        [HttpPut(ApiRoutes.Facultad.UpdateFacultad)]
-        public async Task<ActionResult<ResponseBase>> UpdateFacultad([FromBody] UpdateFacultadCommand command)
-        {
-            try
-            {
-                return Ok(await _mediator.Send(command));
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "", ex.Message);
-                return ResponseUtil.BadRequest(ex.Message.ToString());
-            }
-        }
 
     }
 }
