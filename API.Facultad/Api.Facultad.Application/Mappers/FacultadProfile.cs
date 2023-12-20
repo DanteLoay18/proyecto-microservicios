@@ -1,7 +1,9 @@
 ﻿
 using Api.Facultad.Application.Features.Facultad.Command.AsignarEncargado;
 using Api.Facultad.Application.Features.Facultad.Command.DeleteEncargado;
+using Api.Facultad.Application.Features.Facultad.Queries.GetFacultadesPaginated;
 using Api.Facultad.Domain.Constants.Base;
+using Api.Facultad.Domain.DTOs.Request;
 using Api.Facultad.Domain.DTOs.Response;
 using Api.Facultad.Domain.Entities;
 using AutoMapper;
@@ -33,6 +35,12 @@ namespace Api.Facultad.Application.Mappers
                .ForMember(d => d.ModifiedFrom, opt => opt.MapFrom(src => AuditoriaConstant.FromDeleteEncargado))
                .AfterMap((src, dest) => dest.Encargado = null);
 
+
+            CreateMap<AsignarEncargadoRequest, AsignarEncargadoCommand>();
+
+            CreateMap<DeleteEncargadoRequest, DeleteEncargadoCommand>();
+
+            CreateMap<GetFacultadesPaginatedRequest, GetFacultadesPaginatedQuery>();
         }
 
     }

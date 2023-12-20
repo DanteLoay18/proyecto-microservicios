@@ -7,7 +7,9 @@ using Api.Facultad.Application.Features.Facultad.Queries.GetFacultades;
 using Api.Facultad.Application.Features.Facultad.Queries.GetFacultadesPaginated;
 using Api.Facultad.Application.Utils;
 using Api.Facultad.Domain.DTOs.Base;
+using Api.Facultad.Domain.DTOs.Request;
 using API.Facultad.Routes;
+using AutoMapper;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -19,10 +21,12 @@ namespace API.Facultad.Controllers
     {
         private readonly IMediator _mediator;
         private readonly ILogger<FacultadController> _logger;
-        public FacultadController(IMediator mediator, ILogger<FacultadController> logger)
+        public readonly IMapper _mapper;
+        public FacultadController(IMediator mediator, ILogger<FacultadController> logger, IMapper mapper)
         {
             _mediator = mediator;
             _logger = logger;
+            _mapper = mapper;
         }
 
         [HttpGet(ApiRoutes.Facultad.FindFacultadById)]
@@ -60,10 +64,11 @@ namespace API.Facultad.Controllers
         }
 
         [HttpGet(ApiRoutes.Facultad.FindFacultadesPaginated)]
-        public async Task<ActionResult<ResponseBase>> GetFacultadesPaginated([FromQuery] GetFacultadesPaginatedQuery query)
+        public async Task<ActionResult<ResponseBase>> GetFacultadesPaginated([FromQuery] GetFacultadesPaginatedRequest getFacultadesPaginatedRequest)
         {
             try
             {
+                var query = _mapper.Map<GetFacultadesPaginatedQuery>(getFacultadesPaginatedRequest); 
                 return Ok(await _mediator.Send(query));
             }
             catch (Exception ex)
@@ -91,10 +96,11 @@ namespace API.Facultad.Controllers
         }
 
         [HttpPut(ApiRoutes.Facultad.AsignarEncargado)]
-        public async Task<ActionResult<ResponseBase>> AsignarEncargado([FromBody] AsignarEncargadoCommand command)
+        public async Task<ActionResult<ResponseBase>> AsignarEncargado([FromBody] AsignarEncargadoRequest asignarEncargadoRequest)
         {
             try
             {
+                var command = _mapper.Map<AsignarEncargadoCommand>(asignarEncargadoRequest);
                 return Ok(await _mediator.Send(command));
             }
             catch (Exception ex)
@@ -105,10 +111,11 @@ namespace API.Facultad.Controllers
 
         }
         [HttpPut(ApiRoutes.Facultad.DeleteEncargado)]
-        public async Task<ActionResult<ResponseBase>> DeleteEncargado([FromBody] DeleteEncargadoCommand command)
+        public async Task<ActionResult<ResponseBase>> DeleteEncargado([FromBody] DeleteEncargadoRequest deleteEncargadoRequest)
         {
             try
             {
+                var command = _mapper.Map<DeleteEncargadoCommand>(deleteEncargadoRequest);
                 return Ok(await _mediator.Send(command));
             }
             catch (Exception ex)

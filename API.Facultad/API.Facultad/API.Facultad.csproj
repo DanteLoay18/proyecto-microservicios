@@ -17,6 +17,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Api.Facultad.Application\Api.Facultad.Application.csproj" />
+    <ProjectReference Include="..\Api.Facultad.Domain\Api.Facultad.Domain.csproj" />
     <ProjectReference Include="..\Api.Facultad.Infraestructure\Api.Facultad.Infraestructure.csproj" />
   </ItemGroup>
 
