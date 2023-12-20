@@ -18,7 +18,7 @@ namespace Api.Facultad.Application.Features.Facultad.Command.AsignarEncargado
 
             RuleFor(x => x.IdEncargado)
                .NotEmpty()
-               .WithMessage("El campo IdUsuario es obligatorio.");
+               .WithMessage("El campo IdEncargado es obligatorio.");
         }
     }
 }

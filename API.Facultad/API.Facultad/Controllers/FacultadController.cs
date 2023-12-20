@@ -9,9 +9,7 @@ using Api.Facultad.Application.Utils;
 using Api.Facultad.Domain.DTOs.Base;
 using API.Facultad.Routes;
 using MediatR;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System.Net;
 
 namespace API.Facultad.Controllers
 {
