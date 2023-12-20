@@ -1,5 +1,6 @@
 ﻿
 using Api.Facultad.Application.Features.Facultad.Command.AsignarEncargado;
+using Api.Facultad.Application.Features.Facultad.Command.DeleteEncargado;
 using Api.Facultad.Application.Features.Facultad.Queries.GetFacultadById;
 using Api.Facultad.Application.Features.Facultad.Queries.GetFacultadesPaginated;
 using Api.Facultad.Application.Utils;
@@ -58,6 +59,20 @@ namespace API.Facultad.Controllers
 
         [HttpPut(ApiRoutes.Facultad.AsignarEncargado)]
         public async Task<ActionResult<ResponseBase>> AsignarEncargado([FromBody] AsignarEncargadoCommand command)
+        {
+            try
+            {
+                return Ok(await _mediator.Send(command));
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "", ex.Message);
+                return ResponseUtil.BadRequest(ex.Message.ToString());
+            }
+
+        }
+        [HttpPut(ApiRoutes.Facultad.DeleteEncargado)]
+        public async Task<ActionResult<ResponseBase>> DeleteEncargado([FromBody] DeleteEncargadoCommand command)
         {
             try
             {
