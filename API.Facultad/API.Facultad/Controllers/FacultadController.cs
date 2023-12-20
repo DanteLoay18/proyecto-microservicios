@@ -1,6 +1,7 @@
 ﻿
 using Api.Facultad.Application.Features.Facultad.Command.AsignarEncargado;
 using Api.Facultad.Application.Features.Facultad.Command.DeleteEncargado;
+using Api.Facultad.Application.Features.Facultad.Queries.GetEscuelasByFacultad;
 using Api.Facultad.Application.Features.Facultad.Queries.GetFacultadById;
 using Api.Facultad.Application.Features.Facultad.Queries.GetFacultadesPaginated;
 using Api.Facultad.Application.Utils;
@@ -40,6 +41,23 @@ namespace API.Facultad.Controllers
                 return ResponseUtil.BadRequest(ex.Message.ToString());
             }
             
+        }
+
+        [HttpGet(ApiRoutes.Facultad.FindEscuelasByFacultad)]
+        public async Task<ActionResult<ResponseBase>> GetEscuelasByFacultad(long id)
+        {
+            try
+            {
+                var query = new GetEscuelasByFacultadQuery();
+                query.IdFacultad = id;
+                return Ok(await _mediator.Send(query));
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "", ex.Message);
+                return ResponseUtil.BadRequest(ex.Message.ToString());
+            }
+
         }
 
         [HttpGet(ApiRoutes.Facultad.FindFacultadesPaginated)]

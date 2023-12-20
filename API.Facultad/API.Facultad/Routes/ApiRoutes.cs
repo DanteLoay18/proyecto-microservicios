@@ -11,6 +11,7 @@
         {
             public const string Controller = Base + "/facultad";
             public const string FindFacultadById =  "{id}";
+            public const string FindEscuelasByFacultad = "findEscuelasByFacultad/{id}";
             public const string FindFacultadesPaginated = "";
             public const string AsignarEncargado = "asignarEncargado";
             public const string DeleteEncargado = "eliminarEncargado";
