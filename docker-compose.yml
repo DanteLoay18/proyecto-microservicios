@@ -44,6 +44,18 @@ services:
     - 33061:33060
     networks:
     - td2023 
+  broker:
+    image: johnnypark/kafka-zookeeper:2.6.0
+    container_name: service-broker
+    restart: always
+    ports:
+      - "2181:2181"
+      - "9092:9092"
+    environment:
+    - ADVERTISED_HOST=127.0.0.1
+    - NUM_PARTITIONS=3
+    networks:
+    - td2023
 networks:
   td2023:
     name: ms-unu
