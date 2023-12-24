@@ -1,5 +1,5 @@
 ﻿using Api.Facultad.Domain.DTOs.Base;
-using API.Catalogo.Domain.Constants.Base;
+using API.Facultad.Domain.Constants.Base;
 using System.Net;
 
 namespace Api.Facultad.Application.Utils

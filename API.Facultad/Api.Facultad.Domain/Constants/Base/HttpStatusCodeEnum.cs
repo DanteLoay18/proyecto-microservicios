@@ -1,4 +1,4 @@
-﻿namespace API.Catalogo.Domain.Constants.Base
+﻿namespace API.Facultad.Domain.Constants.Base
 {
     public enum HttpStatusCodeEnum
     {
