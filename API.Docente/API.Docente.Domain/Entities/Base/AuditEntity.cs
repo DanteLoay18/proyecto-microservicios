@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
 
 
-namespace API.Docente.Domain.Entities.Base
+namespace API.Docentes.Domain.Entities.Base
 {
     public abstract class AuditEntity
     {

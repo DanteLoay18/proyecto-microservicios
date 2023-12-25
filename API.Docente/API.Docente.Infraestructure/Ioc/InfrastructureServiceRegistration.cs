@@ -1,14 +1,14 @@
 ﻿
-using API.Docente.Application.Contracts.Persistence;
-using API.Docente.Infraestructure.Persistence;
-using API.Docente.Infraestructure.Persistence.Extensions;
-using API.Docente.Infraestructure.Repositories;
+using API.Docentes.Application.Contracts.Persistence;
+using API.Docentes.Infraestructure.Persistence;
+using API.Docentes.Infraestructure.Persistence.Extensions;
+using API.Docentes.Infraestructure.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
 
-namespace CleanArchitecture.Infrastructure
+namespace API.Docentes.Infrastructure
 {
     public static class InfrastructureServiceRegistration
     {
@@ -21,6 +21,7 @@ namespace CleanArchitecture.Infrastructure
             services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
             AddRepositories(services);
             services.AddScoped<IUnitOfWork, UnitOfWork>();
+
 
             return services;
         }

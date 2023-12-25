@@ -1,7 +1,7 @@
 ﻿using Api.Facultad.Application.Contracts.Persistence;
 using Api.Facultad.Application.Utils;
 using Api.Facultad.Domain.DTOs.Base;
-using API.Catalogo.Domain.Constants.Base;
+using API.Facultad.Domain.Constants.Base;
 using Api.Facultad.Domain.Entities;
 using AutoMapper;
 using MediatR;

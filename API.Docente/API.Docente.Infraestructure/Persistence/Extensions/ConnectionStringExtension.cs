@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.Configuration;
 
-namespace API.Docente.Infraestructure.Persistence.Extensions
+namespace API.Docentes.Infraestructure.Persistence.Extensions
 {
     internal static class ConnectionStringExtension
     {

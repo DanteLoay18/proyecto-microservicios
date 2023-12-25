@@ -4,7 +4,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
 
-namespace API.Docente.Infraestructure.Migrations
+namespace API.Docentes.Infraestructure.Migrations
 {
     public partial class DocenteV1 : Migration
     {

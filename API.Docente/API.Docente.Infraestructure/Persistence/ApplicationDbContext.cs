@@ -1,15 +1,15 @@
 ﻿
 
-using API.Docente.Domain.Entities;
-using API.Docente.Domain.Entities.Base;
-using API.Docente.Infraestructure.Persistence.Extensions;
+using API.Docentes.Domain.Entities;
+using API.Docentes.Domain.Entities.Base;
+using API.Docentes.Infraestructure.Persistence.Extensions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.Extensions.Configuration;
 using System.IO;
 using System.Reflection;
 
-namespace API.Docente.Infraestructure.Persistence
+namespace API.Docentes.Infraestructure.Persistence
 {
     public class ApplicationDbContext : DbContext
     {

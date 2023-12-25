@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 
-namespace API.Docente.Infraestructure.Persistence.Extensions
+namespace API.Docentes.Infraestructure.Persistence.Extensions
 {
     public static class ModelBuilderExtensions
     {

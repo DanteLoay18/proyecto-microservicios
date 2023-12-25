@@ -1,8 +1,8 @@
-﻿using ValidationException = API.Docente.Application.Exceptions.ValidationException;
+﻿using ValidationException = API.Docentes.Application.Exceptions.ValidationException;
 using FluentValidation;
 using MediatR;
 
-namespace API.Docente.Application.Behaviours
+namespace API.Docentes.Application.Behaviours
 {
     public class ValidationBehaviour<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse> 
     {

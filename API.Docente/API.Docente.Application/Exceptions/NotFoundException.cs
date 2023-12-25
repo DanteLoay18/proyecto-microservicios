@@ -1,5 +1,5 @@
 ﻿
-namespace API.Docente.Application.Exceptions
+namespace API.Docentes.Application.Exceptions
 {
     public class NotFoundException : ApplicationException
     {

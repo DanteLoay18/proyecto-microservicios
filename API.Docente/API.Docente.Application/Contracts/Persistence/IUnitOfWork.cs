@@ -1,6 +1,6 @@
 ﻿
 
-namespace API.Docente.Application.Contracts.Persistence
+namespace API.Docentes.Application.Contracts.Persistence
 {
     public interface IUnitOfWork : IDisposable
     {

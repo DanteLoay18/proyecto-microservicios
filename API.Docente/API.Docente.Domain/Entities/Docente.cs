@@ -1,10 +1,10 @@
 ﻿
 
-using API.Docente.Domain.Entities.Base;
+using API.Docentes.Domain.Entities.Base;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace API.Docente.Domain.Entities
+namespace API.Docentes.Domain.Entities
 {
     [Table("Docente")]
     public class Docente : BaseEntity

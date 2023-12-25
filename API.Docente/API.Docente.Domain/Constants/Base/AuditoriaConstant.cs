@@ -1,6 +1,6 @@
 ﻿
 
-namespace API.Docente.Domain.Constants.Base
+namespace API.Docentes.Domain.Constants.Base
 {
     public static class AuditoriaConstant
     {

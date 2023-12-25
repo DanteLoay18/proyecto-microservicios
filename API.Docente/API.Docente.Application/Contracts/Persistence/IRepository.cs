@@ -1,7 +1,7 @@
 ﻿
 using System.Linq.Expressions;
 
-namespace API.Docente.Application.Contracts.Persistence
+namespace API.Docentes.Application.Contracts.Persistence
 {
     public interface IRepository<TEntity> where TEntity : class
     {

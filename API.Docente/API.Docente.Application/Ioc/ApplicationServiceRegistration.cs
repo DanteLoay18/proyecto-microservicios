@@ -1,12 +1,12 @@
 ﻿
 
-using API.Docente.Application.Behaviours;
+using API.Docentes.Application.Behaviours;
 using FluentValidation;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
 
-namespace API.Docente.Application.Ioc
+namespace API.Docentes.Application.Ioc
 {
     public static class ApplicationServiceRegistration
     {

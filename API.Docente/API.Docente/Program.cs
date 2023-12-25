@@ -1,6 +1,6 @@
-using API.Docente.Application.Ioc;
-using API.Docente.Middleware;
-using CleanArchitecture.Infrastructure;
+using API.Docentes.Application.Ioc;
+using API.Docentes.Middleware;
+using API.Docentes.Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
 

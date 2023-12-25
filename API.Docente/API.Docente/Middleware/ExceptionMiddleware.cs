@@ -1,10 +1,10 @@
-﻿using API.Docente.Application.Exceptions;
-using API.Docente.Application.Utils;
+﻿using API.Docentes.Application.Exceptions;
+using API.Docentes.Application.Utils;
 using Newtonsoft.Json;
 using System.Net;
 
 
-namespace API.Docente.Middleware
+namespace API.Docentes.Middleware
 {
     public class ExceptionMiddleware
     {

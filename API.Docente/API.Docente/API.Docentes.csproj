@@ -19,13 +19,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Controllers\" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\API.Docente.Application\API.Docente.Application.csproj" />
-    <ProjectReference Include="..\API.Docente.Domain\API.Docente.Domain.csproj" />
-    <ProjectReference Include="..\API.Docente.Infraestructure\API.Docente.Infraestructure.csproj" />
+    <ProjectReference Include="..\API.Docente.Application\API.Docentes.Application.csproj" />
+    <ProjectReference Include="..\API.Docente.Domain\API.Docentes.Domain.csproj" />
+    <ProjectReference Include="..\API.Docente.Infraestructure\API.Docentes.Infraestructure.csproj" />
   </ItemGroup>
 
 </Project>

@@ -3,7 +3,7 @@ using Api.Facultad.Application.Utils;
 using Api.Facultad.Domain.DTOs.Base;
 using Api.Facultad.Domain.DTOs.Response;
 using Api.Facultad.Domain.Entities;
-using API.Catalogo.Domain.Constants.Base;
+using API.Facultad.Domain.Constants.Base;
 using AutoMapper;
 using MediatR;
 using Microsoft.Extensions.Logging;

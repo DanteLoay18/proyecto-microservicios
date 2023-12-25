@@ -1,11 +1,11 @@
-﻿using API.Docente.Application.Contracts.Persistence;
-using API.Docente.Domain.Entities.Base;
-using API.Docente.Infraestructure.Persistence;
+﻿using API.Docentes.Application.Contracts.Persistence;
+using API.Docentes.Domain.Entities.Base;
+using API.Docentes.Infraestructure.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Npgsql;
 using System.Linq.Expressions;
 
-namespace API.Docente.Infraestructure.Repositories
+namespace API.Docentes.Infraestructure.Repositories
 {
     public class Repository<TEntity> : IRepository<TEntity> where TEntity : class
     {

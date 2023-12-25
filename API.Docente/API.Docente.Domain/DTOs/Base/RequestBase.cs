@@ -1,6 +1,6 @@
 ﻿
 
-namespace API.Docente.Domain.DTOs.Base
+namespace API.Docentes.Domain.DTOs.Base
 {
     public class RequestBase
     {

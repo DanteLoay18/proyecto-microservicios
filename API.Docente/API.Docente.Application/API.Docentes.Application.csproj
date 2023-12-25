@@ -16,12 +16,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\API.Docente.Domain\API.Docente.Domain.csproj" />
+    <ProjectReference Include="..\API.Docente.Domain\API.Docentes.Domain.csproj" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Features\" />
-    <Folder Include="Mappers\" />
+    <Folder Include="Features\Docentes\Command\" />
   </ItemGroup>
 
 </Project>

@@ -44,6 +44,17 @@ services:
     - 33061:33060
     networks:
     - td2023 
+  redis:
+    image: redis:6.2.6
+    command: --requirepass Unu#2023
+    container_name: database-redis
+    restart: always
+    environment:
+    - REDIS_PASSWORD=Unu#2023
+    ports:
+    - 6379:6379
+    networks:
+    - td2023 
   broker:
     image: johnnypark/kafka-zookeeper:2.6.0
     container_name: service-broker

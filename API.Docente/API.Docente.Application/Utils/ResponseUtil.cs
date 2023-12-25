@@ -1,8 +1,8 @@
-﻿using API.Docente.Domain.DTOs.Base;
-using API.Docente.Domain.Constants.Base;
+﻿using API.Docentes.Domain.DTOs.Base;
+using API.Docentes.Domain.Constants.Base;
 using System.Net;
 
-namespace API.Docente.Application.Utils
+namespace API.Docentes.Application.Utils
 {
     public static class ResponseUtil
     {

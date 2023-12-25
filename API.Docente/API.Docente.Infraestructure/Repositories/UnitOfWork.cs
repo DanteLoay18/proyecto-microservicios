@@ -1,9 +1,9 @@
-﻿using API.Docente.Application.Contracts.Persistence;
-using API.Docente.Infraestructure.Persistence;
-using API.Docente.Infraestructure.Persistence.Extensions;
+﻿using API.Docentes.Application.Contracts.Persistence;
+using API.Docentes.Infraestructure.Persistence;
+using API.Docentes.Infraestructure.Persistence.Extensions;
 using Microsoft.Extensions.Configuration;
 
-namespace API.Docente.Infraestructure.Repositories
+namespace API.Docentes.Infraestructure.Repositories
 {
     public class UnitOfWork : IUnitOfWork
     {

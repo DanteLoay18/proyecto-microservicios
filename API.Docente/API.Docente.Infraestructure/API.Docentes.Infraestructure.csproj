@@ -7,6 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Confluent.Kafka" Version="2.3.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="6.0.0">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -16,8 +17,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\API.Docente.Application\API.Docente.Application.csproj" />
-    <ProjectReference Include="..\API.Docente.Domain\API.Docente.Domain.csproj" />
+    <ProjectReference Include="..\API.Docente.Application\API.Docentes.Application.csproj" />
+    <ProjectReference Include="..\API.Docente.Domain\API.Docentes.Domain.csproj" />
   </ItemGroup>
 
   <ItemGroup>
