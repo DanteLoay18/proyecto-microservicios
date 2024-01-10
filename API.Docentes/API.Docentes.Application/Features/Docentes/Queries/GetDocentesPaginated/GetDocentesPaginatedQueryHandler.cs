@@ -7,6 +7,7 @@ using MediatR;
 using Microsoft.Extensions.Logging;
 using API.Docentes.Application.Utils;
 using API.Docentes.Domain.Constants.Base;
+using API.Docentes.Domain.DTOs.Response;
 
 namespace API.Docentes.Application.Features.Docentes.Queries.GetDocentesPaginated
 {
@@ -27,9 +28,24 @@ namespace API.Docentes.Application.Features.Docentes.Queries.GetDocentesPaginate
         {
             try
             {
-                var docentes = await _uow.Repository<Docente>().GetAllAsync(x => !x.IsDeleted,cancellationToken);
+                var docentesEncontrados = await _uow.Repository<Docente>().GetAllAsync(x => !x.IsDeleted,cancellationToken);
 
-                return ResponseUtil.OK(docentes);
+                var startIndex = (request.Page - 1) * request.PageSize;
+                var endIndex = startIndex + request.PageSize;
+                var count = endIndex - startIndex;
+
+               
+                var slicedDocentes = docentesEncontrados.Skip(startIndex).Take(count).ToList();
+
+
+                var facultadesResponse = _mapper.Map<List<DocenteItemResponse>>(slicedDocentes);
+
+                var paginatorResponse = _mapper.Map<PaginatorResponse<DocenteItemResponse>>(source: (request.Page, request.PageSize, docentesEncontrados.ToList().Count(), facultadesResponse));
+
+                return ResponseUtil.OK(paginatorResponse);
+
+
+                
 
             }
             catch (Exception ex)

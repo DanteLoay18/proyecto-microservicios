@@ -46,11 +46,11 @@ namespace API.Docentes.Controllers
         }
 
         [HttpGet(ApiRoutes.Docente.FindDocentesPaginated)]
-        public async Task<ActionResult<ResponseBase>> GetDocentesPaginated([FromQuery] GetDocentesPaginatedQuery query)
+        public async Task<ActionResult<ResponseBase>> GetDocentesPaginated([FromQuery] GetDocentesPaginatedRequest getDocentesPaginatedRequest)
         {
             try
             {
-                //var query = _mapper.Map<GetDocentesPaginatedQuery>(getDocentesPaginatedRequest);
+                var query = _mapper.Map<GetDocentesPaginatedQuery>(getDocentesPaginatedRequest);
                 return Ok(await _mediator.Send(query));
             }
             catch (Exception ex)

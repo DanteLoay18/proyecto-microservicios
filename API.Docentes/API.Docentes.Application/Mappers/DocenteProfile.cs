@@ -4,6 +4,7 @@ using API.Docentes.Application.Features.Docentes.Command.UpdateDocente;
 using API.Docentes.Application.Features.Docentes.Queries.GetDocentesPaginated;
 using API.Docentes.Domain.Constants.Base;
 using API.Docentes.Domain.DTOs.Request;
+using API.Docentes.Domain.DTOs.Response;
 using API.Docentes.Domain.Entities;
 using AutoMapper;
 using System;
@@ -23,6 +24,14 @@ namespace API.Docentes.Application.Mappers
             CreateMap<CreateDocenteRequest, CreateDocenteCommand>();
             CreateMap<UpdateDocenteRequest, UpdateDocenteCommand>();
             CreateMap<DeleteDocenteRequest, DeleteDocenteCommand>();
+
+            CreateMap<Docente, DocenteItemResponse>();
+
+            CreateMap<(int, int, int, List<DocenteItemResponse>), PaginatorResponse<DocenteItemResponse>>()
+                .ForMember(d => d.Items, opt => opt.MapFrom(src => src.Item4))
+                .ForMember(d => d.Page, opt => opt.MapFrom(src => src.Item1))
+                .ForMember(d => d.PageSize, opt => opt.MapFrom(src => src.Item2))
+                .ForMember(d => d.Total, opt => opt.MapFrom(src => src.Item3));
 
             CreateMap<CreateDocenteCommand, Docente>()
                 .ForMember(d => d.CreatedBy, opt => opt.MapFrom(src => src.IdUsuario))
