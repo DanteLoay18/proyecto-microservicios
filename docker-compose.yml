@@ -1,4 +1,4 @@
-version: "1"
+version: "3"
 
 services:
   sql:
@@ -65,6 +65,16 @@ services:
     environment:
     - ADVERTISED_HOST=127.0.0.1
     - NUM_PARTITIONS=3
+    - KAFKA_AUTO_CREATE_TOPICS_ENABLE=true
+    networks:
+    - td2023
+  facultad:
+    build:
+      context: ./API.Facultad
+    depends_on:
+      - sql
+    ports:
+      - "5001:80"
     networks:
     - td2023
 networks:
