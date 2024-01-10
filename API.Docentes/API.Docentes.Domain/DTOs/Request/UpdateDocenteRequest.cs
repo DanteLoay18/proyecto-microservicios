@@ -8,7 +8,7 @@ namespace API.Docentes.Domain.DTOs.Request
 {
     public class UpdateDocenteRequest
     {
-        public int IdDocente { get; set; }
+        public long IdDocente { get; set; }
         public string? NombreCompleto { get; set; }
         public int IdEscuela { get; set; }
         public int IdFacultad { get; set; }

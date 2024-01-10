@@ -1,4 +1,5 @@
 ﻿using API.Docentes.Application.Features.Docentes.Command.CreateDocente;
+using API.Docentes.Application.Features.Docentes.Command.DeleteDocente;
 using API.Docentes.Application.Features.Docentes.Command.UpdateDocente;
 using API.Docentes.Application.Features.Docentes.Queries.GetDocenteById;
 using API.Docentes.Application.Features.Docentes.Queries.GetDocentesPaginated;
@@ -83,6 +84,22 @@ namespace API.Docentes.Controllers
             try
             {
                 var command = _mapper.Map<UpdateDocenteCommand>(updateDocenteRequest);
+                return Ok(await _mediator.Send(command));
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "", ex.Message);
+                return ResponseUtil.BadRequest(ex.Message.ToString());
+            }
+
+        }
+
+        [HttpDelete(ApiRoutes.Docente.DeleteDocente)]
+        public async Task<ActionResult<ResponseBase>> DeleteDocente([FromBody] DeleteDocenteRequest deleteDocenteRequest)
+        {
+            try
+            {
+                var command = _mapper.Map<DeleteDocenteCommand>(deleteDocenteRequest);
                 return Ok(await _mediator.Send(command));
             }
             catch (Exception ex)

@@ -13,6 +13,7 @@
             public const string FindDocentesPaginated = "findDocentesPaginated";
             public const string CreateDocente = "createDocente";
             public const string UpdateDocente = "updateDocente";
+            public const string DeleteDocente = "deleteDocente";
         }
     }
 }

@@ -7,7 +7,7 @@ namespace API.Docentes.Application.Features.Docentes.Command.UpdateDocente
 {
     public class UpdateDocenteCommand : IRequest<ResponseBase>
     {
-        public int IdDocente { get; set; }
+        public long IdDocente { get; set; }
         public string? NombreCompleto { get; set; }
         public int IdEscuela { get; set; }
         public int IdFacultad { get; set; }

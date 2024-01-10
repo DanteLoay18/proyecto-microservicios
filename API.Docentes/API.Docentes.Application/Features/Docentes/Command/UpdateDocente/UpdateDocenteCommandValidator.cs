@@ -9,6 +9,10 @@ namespace API.Docentes.Application.Features.Docentes.Command.UpdateDocente
     {
         public UpdateDocenteCommandValidator()
         {
+            RuleFor(x => x.IdDocente)
+               .NotEmpty()
+               .WithMessage("El campo IdDocente es obligatorio.");
+
             RuleFor(x => x.IdFacultad)
                .NotEmpty()
                .WithMessage("El campo IdFacultad es obligatorio.");

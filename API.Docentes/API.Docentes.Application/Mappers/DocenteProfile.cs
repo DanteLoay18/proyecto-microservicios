@@ -1,4 +1,5 @@
 ﻿using API.Docentes.Application.Features.Docentes.Command.CreateDocente;
+using API.Docentes.Application.Features.Docentes.Command.DeleteDocente;
 using API.Docentes.Application.Features.Docentes.Command.UpdateDocente;
 using API.Docentes.Application.Features.Docentes.Queries.GetDocentesPaginated;
 using API.Docentes.Domain.Constants.Base;
@@ -21,6 +22,7 @@ namespace API.Docentes.Application.Mappers
             CreateMap<GetDocentesPaginatedRequest, GetDocentesPaginatedQuery>();
             CreateMap<CreateDocenteRequest, CreateDocenteCommand>();
             CreateMap<UpdateDocenteRequest, UpdateDocenteCommand>();
+            CreateMap<DeleteDocenteRequest, DeleteDocenteCommand>();
 
             CreateMap<CreateDocenteCommand, Docente>()
                 .ForMember(d => d.CreatedBy, opt => opt.MapFrom(src => src.IdUsuario))
@@ -31,6 +33,12 @@ namespace API.Docentes.Application.Mappers
                 .ForMember(d => d.ModifiedBy, opt => opt.MapFrom(src => src.IdUsuario))
                 .ForMember(d => d.ModifiedAt, opt => opt.MapFrom(src => DateTime.Now))
                 .ForMember(d => d.ModifiedFrom, opt => opt.MapFrom(src => AuditoriaConstant.FromUpdateDocente));
+
+            CreateMap<DeleteDocenteCommand, Docente>()
+              .ForMember(d => d.IsDeleted, opt => opt.MapFrom(src => true))
+              .ForMember(d => d.ModifiedBy, opt => opt.MapFrom(src => src.IdUsuario))
+              .ForMember(d => d.ModifiedAt, opt => opt.MapFrom(src => DateTime.Now))
+              .ForMember(d => d.ModifiedFrom, opt => opt.MapFrom(src => AuditoriaConstant.FromDeleteDocente));
         }
            
     }

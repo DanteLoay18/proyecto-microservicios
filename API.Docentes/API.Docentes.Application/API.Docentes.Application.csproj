@@ -19,8 +19,4 @@
     <ProjectReference Include="..\API.Docentes.Domain\API.Docentes.Domain.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Features\Docentes\Command\DeleteDocente\" />
-  </ItemGroup>
-
 </Project>

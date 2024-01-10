@@ -6,6 +6,6 @@ namespace API.Docentes.Domain.Constants.Base
     {
         public const string FromCreateDocente = "Create Docente";
         public const string FromUpdateDocente = "Update Docente";
-        public const string FromDeleteEncargado = "Delete Encargado";
+        public const string FromDeleteDocente = "Delete Docente";
     }
 }
