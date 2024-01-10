@@ -1,10 +1,10 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
-    <UserSecretsId>2b608486-0d9e-498f-b45b-354b6a073802</UserSecretsId>
+    <UserSecretsId>d70b8f61-478f-4c45-950c-813a0f6c60b3</UserSecretsId>
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
   </PropertyGroup>
 
@@ -19,9 +19,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\API.Docente.Application\API.Docentes.Application.csproj" />
-    <ProjectReference Include="..\API.Docente.Domain\API.Docentes.Domain.csproj" />
-    <ProjectReference Include="..\API.Docente.Infraestructure\API.Docentes.Infraestructure.csproj" />
+    <ProjectReference Include="..\API.Docentes.Application\API.Docentes.Application.csproj" />
+    <ProjectReference Include="..\API.Docentes.Domain\API.Docentes.Domain.csproj" />
+    <ProjectReference Include="..\API.Docentes.Infraestructure\API.Docentes.Infraestructure.csproj" />
   </ItemGroup>
 
 </Project>

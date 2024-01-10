@@ -77,6 +77,15 @@ services:
       - "5001:80"
     networks:
     - td2023
+  docente:
+    build:
+      context: ./API.Docentes
+    depends_on:
+      - postgres
+    ports:
+      - "5002:80"
+    networks:
+    - td2023
 networks:
   td2023:
     name: ms-unu
