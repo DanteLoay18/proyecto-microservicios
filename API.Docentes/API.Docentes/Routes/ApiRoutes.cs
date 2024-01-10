@@ -12,7 +12,7 @@
             public const string FindDocenteById = "findDocenteById/{id}";
             public const string FindDocentesPaginated = "findDocentesPaginated";
             public const string CreateDocente = "createDocente";
-            public const string UpdateFacultad = "";
+            public const string UpdateDocente = "updateDocente";
         }
     }
 }

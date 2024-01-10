@@ -1,4 +1,5 @@
 ﻿using API.Docentes.Application.Features.Docentes.Command.CreateDocente;
+using API.Docentes.Application.Features.Docentes.Command.UpdateDocente;
 using API.Docentes.Application.Features.Docentes.Queries.GetDocenteById;
 using API.Docentes.Application.Features.Docentes.Queries.GetDocentesPaginated;
 using API.Docentes.Application.Utils;
@@ -66,6 +67,22 @@ namespace API.Docentes.Controllers
             try
             {
                 var command = _mapper.Map<CreateDocenteCommand>(createDocenteRequest);
+                return Ok(await _mediator.Send(command));
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "", ex.Message);
+                return ResponseUtil.BadRequest(ex.Message.ToString());
+            }
+
+        }
+
+        [HttpPut(ApiRoutes.Docente.UpdateDocente)]
+        public async Task<ActionResult<ResponseBase>> UpdateDocente([FromBody] UpdateDocenteRequest updateDocenteRequest)
+        {
+            try
+            {
+                var command = _mapper.Map<UpdateDocenteCommand>(updateDocenteRequest);
                 return Ok(await _mediator.Send(command));
             }
             catch (Exception ex)

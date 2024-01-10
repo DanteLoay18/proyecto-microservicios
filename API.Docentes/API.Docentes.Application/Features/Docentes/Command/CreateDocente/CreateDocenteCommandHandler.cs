@@ -49,14 +49,13 @@ namespace API.Docentes.Application.Features.Docentes.Command.CreateDocente
                 _uow.Repository<Docente>().Add(docenteEntity);
 
 
-
                 _logger.LogInformation("Se registro el docente correctamente");
                 return ResponseUtil.OK(docenteEntity.Id, MessageConstant.OkRequestRegistro);
 
             }
             catch (Exception ex)
             {
-                //_logger.LogError(ex, "", ex.Message);
+                _logger.LogError(ex, "", ex.Message);
                 return ResponseUtil.InternalError();
             }
         }
