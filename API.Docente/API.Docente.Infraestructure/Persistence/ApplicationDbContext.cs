@@ -21,6 +21,7 @@ namespace API.Docentes.Infraestructure.Persistence
             DbContextOptions<ApplicationDbContext> options) : base(options)
         {
             _configuration = configuration;
+            AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
             string? assemblyName = _configuration["Domain"];
             if (string.IsNullOrWhiteSpace(assemblyName)) throw new Exception("Undefined domain layer")!;
 
