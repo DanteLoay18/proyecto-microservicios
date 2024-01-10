@@ -16,11 +16,11 @@ namespace API.Docentes.Domain.Entities
 
         [Column("IdEscuela")]
         [Required]
-        public string? IdEscuela { get; set; }
+        public int? IdEscuela { get; set; }
 
         [Column("IdFacultad")]
         [Required]
-        public string? IdFacultad { get; set; }
+        public int? IdFacultad { get; set; }
 
         [Column("Email")]
         [Required]

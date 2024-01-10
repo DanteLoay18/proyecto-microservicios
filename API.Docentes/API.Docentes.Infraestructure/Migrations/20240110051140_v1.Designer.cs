@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace API.Docentes.Infraestructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20231224224431_DocenteV1")]
-    partial class DocenteV1
+    [Migration("20240110051140_v1")]
+    partial class v1
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -24,7 +24,7 @@ namespace API.Docentes.Infraestructure.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
-            modelBuilder.Entity("API.Docente.Domain.Entities.Docente", b =>
+            modelBuilder.Entity("API.Docentes.Domain.Entities.Docente", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
@@ -34,7 +34,7 @@ namespace API.Docentes.Infraestructure.Migrations
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
 
                     b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("timestamp with time zone")
+                        .HasColumnType("timestamp without time zone")
                         .HasColumnName("CreadoEn");
 
                     b.Property<string>("CreatedBy")
@@ -53,14 +53,14 @@ namespace API.Docentes.Infraestructure.Migrations
                         .HasColumnType("text")
                         .HasColumnName("Email");
 
-                    b.Property<string>("IdEscuela")
+                    b.Property<int?>("IdEscuela")
                         .IsRequired()
-                        .HasColumnType("text")
+                        .HasColumnType("integer")
                         .HasColumnName("IdEscuela");
 
-                    b.Property<string>("IdFacultad")
+                    b.Property<int?>("IdFacultad")
                         .IsRequired()
-                        .HasColumnType("text")
+                        .HasColumnType("integer")
                         .HasColumnName("IdFacultad");
 
                     b.Property<bool>("IsDeleted")
@@ -68,7 +68,7 @@ namespace API.Docentes.Infraestructure.Migrations
                         .HasColumnName("Eliminado");
 
                     b.Property<DateTime?>("ModifiedAt")
-                        .HasColumnType("timestamp with time zone")
+                        .HasColumnType("timestamp without time zone")
                         .HasColumnName("ModificadoEn");
 
                     b.Property<string>("ModifiedBy")

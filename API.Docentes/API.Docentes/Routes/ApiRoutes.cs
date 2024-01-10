@@ -11,7 +11,7 @@
             public const string Controller = Base + "/docente";
             public const string FindDocenteById = "findDocenteById/{id}";
             public const string FindDocentesPaginated = "findDocentesPaginated";
-            public const string CreateFacultad = "";
+            public const string CreateDocente = "createDocente";
             public const string UpdateFacultad = "";
         }
     }

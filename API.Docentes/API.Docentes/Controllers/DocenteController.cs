@@ -1,4 +1,5 @@
-﻿using API.Docentes.Application.Features.Docentes.Queries.GetDocenteById;
+﻿using API.Docentes.Application.Features.Docentes.Command.CreateDocente;
+using API.Docentes.Application.Features.Docentes.Queries.GetDocenteById;
 using API.Docentes.Application.Features.Docentes.Queries.GetDocentesPaginated;
 using API.Docentes.Application.Utils;
 using API.Docentes.Domain.DTOs.Base;
@@ -49,6 +50,23 @@ namespace API.Docentes.Controllers
             {
                 //var query = _mapper.Map<GetDocentesPaginatedQuery>(getDocentesPaginatedRequest);
                 return Ok(await _mediator.Send(query));
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "", ex.Message);
+                return ResponseUtil.BadRequest(ex.Message.ToString());
+            }
+
+        }
+
+
+        [HttpPost(ApiRoutes.Docente.CreateDocente)]
+        public async Task<ActionResult<ResponseBase>> CreateDocente([FromBody] CreateDocenteRequest createDocenteRequest)
+        {
+            try
+            {
+                var command = _mapper.Map<CreateDocenteCommand>(createDocenteRequest);
+                return Ok(await _mediator.Send(command));
             }
             catch (Exception ex)
             {

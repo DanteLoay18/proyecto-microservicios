@@ -1,5 +1,8 @@
-﻿using API.Docentes.Application.Features.Docentes.Queries.GetDocentesPaginated;
+﻿using API.Docentes.Application.Features.Docentes.Command.CreateDocente;
+using API.Docentes.Application.Features.Docentes.Queries.GetDocentesPaginated;
+using API.Docentes.Domain.Constants.Base;
 using API.Docentes.Domain.DTOs.Request;
+using API.Docentes.Domain.Entities;
 using AutoMapper;
 using System;
 using System.Collections.Generic;
@@ -15,6 +18,13 @@ namespace API.Docentes.Application.Mappers
         {
 
             CreateMap<GetDocentesPaginatedRequest, GetDocentesPaginatedQuery>();
+            CreateMap<CreateDocenteRequest, CreateDocenteCommand>();
+
+            CreateMap<CreateDocenteCommand, Docente>()
+                .ForMember(d => d.CreatedBy, opt => opt.MapFrom(src => src.IdUsuario))
+                .ForMember(d => d.CreatedAt, opt => opt.MapFrom(src => DateTime.Now))
+                .ForMember(d => d.CreatedFrom, opt => opt.MapFrom(src => AuditoriaConstant.FromCreateDocente));
+
         }
            
     }
