@@ -28,7 +28,7 @@ services:
     restart: always
     environment:
     - MONGO_INITDB_ROOT_USERNAME=admin
-    - MONGO_INITDB_ROOT_PASSWORD=Unu#2023
+    - MONGO_INITDB_ROOT_PASSWORD=123456
     ports:
     - 27018:27017
     networks:
