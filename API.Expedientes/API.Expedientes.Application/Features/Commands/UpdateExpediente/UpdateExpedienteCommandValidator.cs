@@ -8,10 +8,14 @@ using System.Threading.Tasks;
 
 namespace API.Expedientes.Application.Features.Commands.UpdateExpediente
 {
-    public class UpdateExpedienteCommandValidator : AbstractValidator<CreateExpedienteCommand>
+    public class UpdateExpedienteCommandValidator : AbstractValidator<UpdateExpedienteCommand>
     {
         public UpdateExpedienteCommandValidator()
         {
+            RuleFor(x => x.IdExpediente)
+             .NotEmpty()
+             .WithMessage("El campo IdExpediente es obligatorio.");
+
             RuleFor(x => x.IdFacultad)
               .NotEmpty()
               .WithMessage("El campo IdFacultad es obligatorio.");

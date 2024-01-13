@@ -3,6 +3,7 @@ using Api.Expedientes.Domain.DTOs.Response;
 using Api.Expedientes.Domain.Entities;
 using Api.Facultad.Domain.Constants.Base;
 using API.Expedientes.Application.Features.Commands.CreateExpediente;
+using API.Expedientes.Application.Features.Commands.DeleteExpediente;
 using API.Expedientes.Application.Features.Commands.UpdateExpediente;
 using API.Expedientes.Domain.DTOs.Response;
 using AutoMapper;
@@ -32,6 +33,11 @@ namespace API.Docentes.Application.Mappers
                .ForMember(d => d.ModifiedAt, opt => opt.MapFrom(src => DateTime.Now))
                .ForMember(d => d.ModifiedFrom, opt => opt.MapFrom(src => AuditoriaConstant.FromUpdateExpediente));
 
+            CreateMap<DeleteExpedienteCommand, Expediente>()
+             .ForMember(d => d.IsDeleted, opt => opt.MapFrom(src => true))
+             .ForMember(d => d.ModifiedBy, opt => opt.MapFrom(src => src.IdUsuario))
+             .ForMember(d => d.ModifiedAt, opt => opt.MapFrom(src => DateTime.Now))
+             .ForMember(d => d.ModifiedFrom, opt => opt.MapFrom(src => AuditoriaConstant.FromDeleteExpediente));
         }
            
     }

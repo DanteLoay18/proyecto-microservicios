@@ -6,6 +6,6 @@ namespace Api.Facultad.Domain.Constants.Base
     {
         public const string FromCreateExpediente = "Create Expediente";
         public const string FromUpdateExpediente = "Update Expediente";
-        public const string FromDeleteEncargado = "Delete Encargado";
+        public const string FromDeleteExpediente = "Delete Expediente";
     }
 }
