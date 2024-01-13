@@ -24,10 +24,6 @@ namespace API.Expedientes.Application.Features.Commands.UpdateExpediente
                 .NotEmpty()
                 .WithMessage("El campo IdEscuela es obligatorio.");
 
-            RuleFor(x => x.EsValido)
-                .NotEmpty()
-                .WithMessage("El campo Es Valido es obligatorio.");
-
             RuleFor(x => x.Tipo)
                 .NotEmpty()
                 .WithMessage("El campo Tipo es obligatorio.");

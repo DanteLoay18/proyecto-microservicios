@@ -13,6 +13,7 @@
             public const string GetAllExpedientes = "findAllExpedientes";
             public const string CreateExpediente= "createExpediente";
             public const string UpdateExpediente = "updateExpediente";
+            public const string ValidarExpediente = "validarExpediente";
             public const string DeleteExpediente = "deleteExpediente";
         }
     }

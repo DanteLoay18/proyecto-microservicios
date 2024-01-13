@@ -41,7 +41,7 @@ namespace API.Expedientes.Application.Features.Commands.DeleteExpediente
                 await _uow.Repository<Expediente>().UpdateAsync(expedienteId, expedienteEntity);
 
 
-                _logger.LogInformation("Se elimino el docente correctamente");
+                _logger.LogInformation("Se elimino el expediente correctamente");
                 return ResponseUtil.OK(expedienteEntity.Id, MessageConstant.OkRequestDelete);
 
             }

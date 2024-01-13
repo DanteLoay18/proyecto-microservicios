@@ -1,29 +1,31 @@
-﻿using Api.Expedientes.Application.Contracts.Persistence;
-using API.Expedientes.Application.Features.Commands.CreateExpediente;
+﻿
+
+using Api.Expedientes.Application.Contracts.Persistence;
+using API.Expedientes.Application.Features.Commands.DeleteExpediente;
 using Api.Expedientes.Domain.DTOs.Base;
 using AutoMapper;
 using MediatR;
 using Microsoft.Extensions.Logging;
 using API.Expedientes.Application.Utils;
-using API.Facultad.Domain.Constants.Base;
 using Api.Expedientes.Domain.Entities;
+using API.Facultad.Domain.Constants.Base;
 
-namespace API.Expedientes.Application.Features.Commands.UpdateExpediente
+namespace API.Expedientes.Application.Features.Commands.ValidarExpediente
 {
-    public class UpdateExpedienteCommandHandler : IRequestHandler<UpdateExpedienteCommand, ResponseBase>
+    public class ValidarExpedienteCommandHandler : IRequestHandler<ValidarExpedienteCommand, ResponseBase>
     {
 
         private readonly IUnitOfWork _uow;
         private readonly IMapper _mapper;
-        private readonly ILogger<UpdateExpedienteCommandHandler> _logger;
-        public UpdateExpedienteCommandHandler(IUnitOfWork uow, IMapper mapper, ILogger<UpdateExpedienteCommandHandler> logger)
+        private readonly ILogger<ValidarExpedienteCommandHandler> _logger;
+        public ValidarExpedienteCommandHandler(IUnitOfWork uow, IMapper mapper, ILogger<ValidarExpedienteCommandHandler> logger)
         {
             _uow = uow;
             _mapper = mapper;
             _logger = logger;
         }
 
-        public async Task<ResponseBase> Handle(UpdateExpedienteCommand request, CancellationToken cancellationToken)
+        public async Task<ResponseBase> Handle(ValidarExpedienteCommand request, CancellationToken cancellationToken)
         {
             try
             {
@@ -42,8 +44,8 @@ namespace API.Expedientes.Application.Features.Commands.UpdateExpediente
                 await _uow.Repository<Expediente>().UpdateAsync(expedienteId, expedienteEntity);
 
 
-                _logger.LogInformation("Se modifico el expediente correctamente");
-                return ResponseUtil.OK(expedienteEntity.Id, MessageConstant.OkRequestUpdate);
+                _logger.LogInformation("Se valido el expediente correctamente");
+                return ResponseUtil.OK(expedienteEntity.Id, MessageConstant.OkRequestValidate);
 
             }
             catch (Exception ex)

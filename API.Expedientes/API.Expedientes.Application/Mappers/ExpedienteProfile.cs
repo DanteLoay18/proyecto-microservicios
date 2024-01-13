@@ -5,6 +5,7 @@ using Api.Facultad.Domain.Constants.Base;
 using API.Expedientes.Application.Features.Commands.CreateExpediente;
 using API.Expedientes.Application.Features.Commands.DeleteExpediente;
 using API.Expedientes.Application.Features.Commands.UpdateExpediente;
+using API.Expedientes.Application.Features.Commands.ValidarExpediente;
 using API.Expedientes.Domain.DTOs.Response;
 using AutoMapper;
 
@@ -39,6 +40,12 @@ namespace API.Docentes.Application.Mappers
              .ForMember(d => d.ModifiedBy, opt => opt.MapFrom(src => src.IdUsuario))
              .ForMember(d => d.ModifiedAt, opt => opt.MapFrom(src => DateTime.Now))
              .ForMember(d => d.ModifiedFrom, opt => opt.MapFrom(src => AuditoriaConstant.FromDeleteExpediente));
+
+            CreateMap<ValidarExpedienteCommand, Expediente>()
+             .ForMember(d => d.EsValido, opt => opt.MapFrom(src => true))
+             .ForMember(d => d.ModifiedBy, opt => opt.MapFrom(src => src.IdUsuario))
+             .ForMember(d => d.ModifiedAt, opt => opt.MapFrom(src => DateTime.Now))
+             .ForMember(d => d.ModifiedFrom, opt => opt.MapFrom(src => AuditoriaConstant.FromValidarExpediente));
         }
            
     }

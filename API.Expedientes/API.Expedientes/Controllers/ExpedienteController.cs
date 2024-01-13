@@ -3,6 +3,7 @@ using API.Docentes.Routes;
 using API.Expedientes.Application.Features.Commands.CreateExpediente;
 using API.Expedientes.Application.Features.Commands.DeleteExpediente;
 using API.Expedientes.Application.Features.Commands.UpdateExpediente;
+using API.Expedientes.Application.Features.Commands.ValidarExpediente;
 using API.Expedientes.Application.Features.Queries.GetAllExpedientes;
 using API.Expedientes.Application.Features.Queries.GetExpedienteById;
 using API.Expedientes.Application.Utils;
@@ -75,6 +76,21 @@ namespace API.Expedientes.Controllers
 
         [HttpPut(ApiRoutes.Expediente.UpdateExpediente)]
         public async Task<ActionResult<ResponseBase>> UpdateExpediente([FromBody] UpdateExpedienteCommand command)
+        {
+            try
+            {
+                return Ok(await _mediator.Send(command));
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "", ex.Message);
+                return ResponseUtil.BadRequest(ex.Message.ToString());
+            }
+
+        }
+
+        [HttpPut(ApiRoutes.Expediente.ValidarExpediente)]
+        public async Task<ActionResult<ResponseBase>> ValidarExpediente([FromBody] ValidarExpedienteCommand command)
         {
             try
             {
