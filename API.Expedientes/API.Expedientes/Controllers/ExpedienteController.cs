@@ -3,6 +3,7 @@ using API.Docentes.Routes;
 using API.Expedientes.Application.Features.Commands.CreateExpediente;
 using API.Expedientes.Application.Features.Commands.UpdateExpediente;
 using API.Expedientes.Application.Features.Queries.GetAllExpedientes;
+using API.Expedientes.Application.Features.Queries.GetExpedienteById;
 using API.Expedientes.Application.Utils;
 using AutoMapper;
 using MediatR;
@@ -23,6 +24,23 @@ namespace API.Expedientes.Controllers
             _mediator = mediator;
             _logger = logger;
             _mapper = mapper;
+        }
+
+        [HttpGet(ApiRoutes.Expediente.GetExpedienteById)]
+        public async Task<ActionResult<ResponseBase>> GetExpedienteById(Guid id)
+        {
+            try
+            {
+                var query = new GetExpedienteByIdQuery();
+                query.IdExpediente = id;
+                return Ok(await _mediator.Send(query));
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "", ex.Message);
+                return ResponseUtil.BadRequest(ex.Message.ToString());
+            }
+
         }
 
         [HttpGet(ApiRoutes.Expediente.GetAllExpedientes)]
