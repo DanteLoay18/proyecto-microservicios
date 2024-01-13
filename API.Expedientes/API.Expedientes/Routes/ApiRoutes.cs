@@ -9,7 +9,9 @@
         public static class Expediente
         {
             public const string Controller = Base + "/expediente";
+            public const string GetAllExpedientes = "findAllExpedientes";
             public const string CreateExpediente= "createExpediente";
+            public const string UpdateExpediente = "updateExpediente";
         }
     }
 }

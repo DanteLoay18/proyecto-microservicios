@@ -16,14 +16,14 @@ namespace Api.Expedientes.Infraestructure.Repositories
             _collection = database.GetCollection<TEntity>(collectionName);
         }
 
-        public async Task<IEnumerable<TEntity>> GetAllAsync()
+        public async Task<IEnumerable<TEntity>> GetAllAsync(Expression<Func<TEntity, bool>> filter, CancellationToken cancellationToken)
         {
-            return await _collection.Find(_ => true).ToListAsync();
+            return await _collection.Find(filter).ToListAsync(cancellationToken);
         }
 
-        public async Task<TEntity> GetAsync(Expression<Func<TEntity, bool>> filter)
+        public async Task<TEntity> GetAsync(Expression<Func<TEntity, bool>> filter, CancellationToken cancellationToken)
         {
-            return await _collection.Find(filter).FirstOrDefaultAsync();
+            return await _collection.Find(filter).FirstOrDefaultAsync(cancellationToken);
         }
 
         public async Task<TEntity> GetByIdAsync(string id)
@@ -36,12 +36,12 @@ namespace Api.Expedientes.Infraestructure.Repositories
             await _collection.InsertOneAsync(entity);
         }
 
-        public async Task UpdateAsync(string id, TEntity entity)
+        public async Task UpdateAsync(Guid id, TEntity entity)
         {
             await _collection.ReplaceOneAsync(Builders<TEntity>.Filter.Eq("Id", id), entity);
         }
 
-        public async Task DeleteAsync(string id)
+        public async Task DeleteAsync(Guid id)
         {
             await _collection.DeleteOneAsync(Builders<TEntity>.Filter.Eq("Id", id));
         }
