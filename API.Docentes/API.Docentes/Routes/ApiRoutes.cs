@@ -12,6 +12,7 @@
             public const string FindDocenteById = "findDocenteById/{id}";
             public const string FindDocentesPaginated = "findDocentesPaginated";
             public const string FindDocentesByEscuela = "findDocentesByEscuela/{idEscuela}";
+            public const string FindDocentesByFacultad= "findDocentesByFacultad/{idFacultad}";
             public const string CreateDocente = "createDocente";
             public const string UpdateDocente = "updateDocente";
             public const string DeleteDocente = "deleteDocente";

@@ -3,6 +3,7 @@ using API.Docentes.Application.Features.Docentes.Command.DeleteDocente;
 using API.Docentes.Application.Features.Docentes.Command.UpdateDocente;
 using API.Docentes.Application.Features.Docentes.Queries.GetDocenteById;
 using API.Docentes.Application.Features.Docentes.Queries.GetDocentesByEscuela;
+using API.Docentes.Application.Features.Docentes.Queries.GetDocentesByFacultad;
 using API.Docentes.Application.Features.Docentes.Queries.GetDocentesPaginated;
 using API.Docentes.Application.Utils;
 using API.Docentes.Domain.DTOs.Base;
@@ -70,6 +71,23 @@ namespace API.Docentes.Controllers
             {
                 var query = new GetDocentesByEscuelaQuery();
                 query.IdEscuela = idEscuela;
+                return Ok(await _mediator.Send(query));
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "", ex.Message);
+                return ResponseUtil.BadRequest(ex.Message.ToString());
+            }
+
+        }
+
+        [HttpGet(ApiRoutes.Docente.FindDocentesByFacultad)]
+        public async Task<ActionResult<ResponseBase>> GetDocentesByFacultad(int idFacultad)
+        {
+            try
+            {
+                var query = new GetDocentesByFacultadQuery();
+                query.IdFacultad = idFacultad;
                 return Ok(await _mediator.Send(query));
             }
             catch (Exception ex)
