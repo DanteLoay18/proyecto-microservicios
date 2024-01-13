@@ -24,6 +24,7 @@ namespace API.Docentes.Application.Mappers
                 .ForMember(d => d.Total, opt => opt.MapFrom(src => src.Item3));
 
             CreateMap<CreateExpedienteCommand, Expediente>()
+                .ForMember(d => d.EsValido, opt => opt.MapFrom(src => false))
                 .ForMember(d => d.CreatedBy, opt => opt.MapFrom(src => src.IdUsuario))
                 .ForMember(d => d.CreatedAt, opt => opt.MapFrom(src => DateTime.Now))
                 .ForMember(d => d.CreatedFrom, opt => opt.MapFrom(src => AuditoriaConstant.FromCreateExpediente));

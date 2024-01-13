@@ -16,7 +16,6 @@ namespace API.Expedientes.Application.Features.Commands.UpdateExpediente
         public string? NumeroExpediente { get; set; }
         public int? IdEscuela { get; set; }
         public int? IdFacultad { get; set; }
-        public bool? EsValido { get; set; }
         public ICollection<Estudiante>? Estudiantes { get; set; }
         public string? IdUsuario { get; set; }
     }
