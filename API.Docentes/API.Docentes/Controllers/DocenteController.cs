@@ -2,6 +2,7 @@
 using API.Docentes.Application.Features.Docentes.Command.DeleteDocente;
 using API.Docentes.Application.Features.Docentes.Command.UpdateDocente;
 using API.Docentes.Application.Features.Docentes.Queries.GetDocenteById;
+using API.Docentes.Application.Features.Docentes.Queries.GetDocentesByBusqueda;
 using API.Docentes.Application.Features.Docentes.Queries.GetDocentesByEscuela;
 using API.Docentes.Application.Features.Docentes.Queries.GetDocentesByFacultad;
 using API.Docentes.Application.Features.Docentes.Queries.GetDocentesPaginated;
@@ -13,6 +14,8 @@ using AutoMapper;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
+
+
 namespace API.Docentes.Controllers
 {
     [ApiController]
@@ -22,6 +25,8 @@ namespace API.Docentes.Controllers
         private readonly IMediator _mediator;
         private readonly ILogger<DocenteController> _logger;
         private readonly IMapper _mapper;
+
+
         public DocenteController(IMediator mediator, ILogger<DocenteController> logger, IMapper mapper)
         {
             _mediator = mediator;
@@ -144,6 +149,23 @@ namespace API.Docentes.Controllers
                 return ResponseUtil.BadRequest(ex.Message.ToString());
             }
 
+        }
+        [HttpGet(ApiRoutes.Docente.FindDocentesByBusqueda)]
+        public async Task<ActionResult<ResponseBase>> GetDocentesByBusqueda([FromQuery] GetDocentesByBusquedaQuery getDocentesByBusquedaQuery)
+        {
+            try
+            {
+                getDocentesByBusquedaQuery.NombreCompleto ??= null;
+                getDocentesByBusquedaQuery.Email ??= null;
+
+                var query = _mapper.Map<GetDocentesByBusquedaQuery>(getDocentesByBusquedaQuery);
+                return Ok(await _mediator.Send(query));
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "", ex.Message);
+                return ResponseUtil.BadRequest(ex.Message.ToString());
+            }
         }
     }
 }

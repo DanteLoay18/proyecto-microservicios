@@ -16,6 +16,7 @@
             public const string CreateDocente = "createDocente";
             public const string UpdateDocente = "updateDocente";
             public const string DeleteDocente = "deleteDocente";
+            public const string FindDocentesByBusqueda = "findDocentesByBusqueda";
         }
     }
 }
