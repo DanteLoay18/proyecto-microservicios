@@ -69,21 +69,36 @@ services:
     networks:
     - td2023
   facultad:
+    container_name: ms-facultad
     build:
       context: ./API.Facultad
     depends_on:
       - sql
     ports:
       - "5001:80"
+      - "7001:443"
     networks:
     - td2023
   docente:
+    container_name: ms-docente
     build:
       context: ./API.Docentes
     depends_on:
       - postgres
     ports:
       - "5002:80"
+      - "7002:443"
+    networks:
+    - td2023
+  expediente:
+    container_name: ms-expediente
+    build:
+      context: ./API.Expedientes
+    depends_on:
+      - mongo
+    ports:
+      - "5003:80"
+      - "7003:443"
     networks:
     - td2023
 networks:
