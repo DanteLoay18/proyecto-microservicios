@@ -29,9 +29,6 @@ namespace API.Expedientes.Application.Features.Commands.CreateExpediente
 
         public async Task<ResponseBase> Handle(CreateExpedienteCommand request, CancellationToken cancellationToken)
         {
-
-            
-
             try
             {
                 var expedienteEntity = _mapper.Map<Expediente>(request);

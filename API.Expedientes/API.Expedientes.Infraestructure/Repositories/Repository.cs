@@ -21,6 +21,11 @@ namespace Api.Expedientes.Infraestructure.Repositories
             return await _collection.Find(_ => true).ToListAsync();
         }
 
+        public async Task<TEntity> GetAsync(Expression<Func<TEntity, bool>> filter)
+        {
+            return await _collection.Find(filter).FirstOrDefaultAsync();
+        }
+
         public async Task<TEntity> GetByIdAsync(string id)
         {
             return await _collection.Find(Builders<TEntity>.Filter.Eq("Id", id)).FirstOrDefaultAsync();
