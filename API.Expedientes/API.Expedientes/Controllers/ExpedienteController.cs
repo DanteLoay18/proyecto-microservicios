@@ -1,10 +1,14 @@
 ﻿using Api.Expedientes.Domain.DTOs.Base;
 using API.Docentes.Routes;
 using API.Expedientes.Application.Features.Commands.CreateExpediente;
+using API.Expedientes.Application.Features.Commands.DeleteExpediente;
+using API.Expedientes.Application.Features.Commands.UpdateExpediente;
+using API.Expedientes.Application.Features.Commands.ValidarExpediente;
+using API.Expedientes.Application.Features.Queries.GetAllExpedientes;
+using API.Expedientes.Application.Features.Queries.GetExpedienteById;
 using API.Expedientes.Application.Utils;
 using AutoMapper;
 using MediatR;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Expedientes.Controllers
@@ -23,8 +27,85 @@ namespace API.Expedientes.Controllers
             _mapper = mapper;
         }
 
+        [HttpGet(ApiRoutes.Expediente.GetExpedienteById)]
+        public async Task<ActionResult<ResponseBase>> GetExpedienteById(Guid id)
+        {
+            try
+            {
+                var query = new GetExpedienteByIdQuery();
+                query.IdExpediente = id;
+                return Ok(await _mediator.Send(query));
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "", ex.Message);
+                return ResponseUtil.BadRequest(ex.Message.ToString());
+            }
+
+        }
+
+        [HttpGet(ApiRoutes.Expediente.GetAllExpedientes)]
+        public async Task<ActionResult<ResponseBase>> GetAllExpedientes([FromQuery] GetAllExpedientesQuery query)
+        {
+            try
+            {
+                return Ok(await _mediator.Send(query));
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "", ex.Message);
+                return ResponseUtil.BadRequest(ex.Message.ToString());
+            }
+
+        }
+
         [HttpPost(ApiRoutes.Expediente.CreateExpediente)]
-        public async Task<ActionResult<ResponseBase>> CreateDocente([FromBody] CreateExpedienteCommand command)
+        public async Task<ActionResult<ResponseBase>> CreateExpediente([FromBody] CreateExpedienteCommand command)
+        {
+            try
+            {
+                return Ok(await _mediator.Send(command));
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "", ex.Message);
+                return ResponseUtil.BadRequest(ex.Message.ToString());
+            }
+
+        }
+
+        [HttpPut(ApiRoutes.Expediente.UpdateExpediente)]
+        public async Task<ActionResult<ResponseBase>> UpdateExpediente([FromBody] UpdateExpedienteCommand command)
+        {
+            try
+            {
+                return Ok(await _mediator.Send(command));
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "", ex.Message);
+                return ResponseUtil.BadRequest(ex.Message.ToString());
+            }
+
+        }
+
+        [HttpPut(ApiRoutes.Expediente.ValidarExpediente)]
+        public async Task<ActionResult<ResponseBase>> ValidarExpediente([FromBody] ValidarExpedienteCommand command)
+        {
+            try
+            {
+                return Ok(await _mediator.Send(command));
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "", ex.Message);
+                return ResponseUtil.BadRequest(ex.Message.ToString());
+            }
+
+        }
+
+        [HttpDelete(ApiRoutes.Expediente.DeleteExpediente)]
+        public async Task<ActionResult<ResponseBase>> DeleteExpediente([FromBody] DeleteExpedienteCommand command)
         {
             try
             {
