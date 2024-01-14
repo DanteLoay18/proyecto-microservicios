@@ -15,6 +15,7 @@
             public const string UpdateExpediente = "updateExpediente";
             public const string ValidarExpediente = "validarExpediente";
             public const string DeleteExpediente = "deleteExpediente";
+            public const string GetExpedientesByBusqueda = "findExpedientesByBusqueda";
         }
     }
 }

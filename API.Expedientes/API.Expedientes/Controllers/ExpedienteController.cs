@@ -5,6 +5,7 @@ using API.Expedientes.Application.Features.Commands.DeleteExpediente;
 using API.Expedientes.Application.Features.Commands.UpdateExpediente;
 using API.Expedientes.Application.Features.Commands.ValidarExpediente;
 using API.Expedientes.Application.Features.Queries.GetAllExpedientes;
+using API.Expedientes.Application.Features.Queries.GetExpedienteByBusqueda;
 using API.Expedientes.Application.Features.Queries.GetExpedienteById;
 using API.Expedientes.Application.Utils;
 using AutoMapper;
@@ -117,6 +118,19 @@ namespace API.Expedientes.Controllers
                 return ResponseUtil.BadRequest(ex.Message.ToString());
             }
 
+        }
+        [HttpGet(ApiRoutes.Expediente.GetExpedientesByBusqueda)]
+        public async Task<ActionResult<ResponseBase>> GetExpedientesByBusqueda([FromQuery] GetExpedienteByBusquedaQuery query)
+        {
+            try
+            {
+                return Ok(await _mediator.Send(query));
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "", ex.Message);
+                return ResponseUtil.BadRequest(ex.Message.ToString());
+            }
         }
     }
 }
