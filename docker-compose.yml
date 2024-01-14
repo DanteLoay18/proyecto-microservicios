@@ -101,6 +101,15 @@ services:
       - "7003:443"
     networks:
     - td2023
+  gateway:
+    build:
+      context: ./API.Presentacion
+    ports:
+      - "3001:3001"
+    depends_on:
+      - docente
+      - facultad
+      - expediente
 networks:
   td2023:
     name: ms-unu
