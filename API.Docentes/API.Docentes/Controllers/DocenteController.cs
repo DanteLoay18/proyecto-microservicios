@@ -103,6 +103,24 @@ namespace API.Docentes.Controllers
 
         }
 
+        [HttpGet(ApiRoutes.Docente.FindDocentesByBusqueda)]
+        public async Task<ActionResult<ResponseBase>> GetDocentesByBusqueda([FromQuery] GetDocentesByBusquedaQuery getDocentesByBusquedaQuery)
+        {
+            try
+            {
+                getDocentesByBusquedaQuery.NombreCompleto ??= null;
+                getDocentesByBusquedaQuery.Email ??= null;
+
+                var query = _mapper.Map<GetDocentesByBusquedaQuery>(getDocentesByBusquedaQuery);
+                return Ok(await _mediator.Send(query));
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "", ex.Message);
+                return ResponseUtil.BadRequest(ex.Message.ToString());
+            }
+        }
+
         [HttpPost(ApiRoutes.Docente.CreateDocente)]
         public async Task<ActionResult<ResponseBase>> CreateDocente([FromBody] CreateDocenteRequest createDocenteRequest)
         {
@@ -150,22 +168,6 @@ namespace API.Docentes.Controllers
             }
 
         }
-        [HttpGet(ApiRoutes.Docente.FindDocentesByBusqueda)]
-        public async Task<ActionResult<ResponseBase>> GetDocentesByBusqueda([FromQuery] GetDocentesByBusquedaQuery getDocentesByBusquedaQuery)
-        {
-            try
-            {
-                getDocentesByBusquedaQuery.NombreCompleto ??= null;
-                getDocentesByBusquedaQuery.Email ??= null;
-
-                var query = _mapper.Map<GetDocentesByBusquedaQuery>(getDocentesByBusquedaQuery);
-                return Ok(await _mediator.Send(query));
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "", ex.Message);
-                return ResponseUtil.BadRequest(ex.Message.ToString());
-            }
-        }
+        
     }
 }
