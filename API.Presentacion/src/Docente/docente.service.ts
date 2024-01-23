@@ -19,13 +19,28 @@ export class DocenteService {
     ) {}
   
   async findAllPaginated(page:number, pageSize:number, idUsuario:string){
-
-    
+    try {
+      const resp = await axios.get(`${this.rootInternet}${this.apiExpediente}${this.rootApi}${this.nombreExpediente}?Page=${page}&PageSize=${pageSize}&idUsuario=${idUsuario}`);
+      return resp.data;
+    } catch (error) {
+      throw new BadRequestException(error.message);
+    }  
   }
 
   async findByBusqueda(findByBusquedaPaginatedRequest:FindByBusquedaPaginatedRequest, idUsuario:string){
+    try {
+      const resp = await this.clienteUser.send({ cmd: 'find_by_busqueda' }, { request: findByBusquedaPaginatedRequest, idUsuario }).pipe(
+        tap(({ success, message }) => { if (!success) throw new BadRequestException(message) }),
+        map(({ value, ...rest }) => ({
+          ...rest,
+          value
+        })),
+      ).toPromise();
 
-    
+      return resp.value;
+    } catch (error) {
+      throw new BadRequestException(error.message);
+    }
   }
   
   findByEscuela(findByEscuelaRequest:FindByEscuelaRequest){
@@ -50,23 +65,61 @@ export class DocenteService {
   }
 
   async findByFacultad(idUsuario:string){
-
-   
+    try {
+      const resp = await axios.get(`${this.rootInternet}${this.apiExpediente}${this.rootApi}${this.nombreExpediente}/findByFacultad?idUsuario=${idUsuario}`);
+      return resp.data;
+    } catch (error) {
+      throw new BadRequestException(error.message);
+    }
   }
 
 
   findOneById(idDocente:string){
-    
+    try {
+      const resp = await this.clienteUser.send({ cmd: 'findOne_docente' }, idDocente).pipe(
+        tap(({ success, message }) => { if (!success) throw new BadRequestException(message) }),
+        map(({ value, ...rest }) => ({
+          ...rest,
+          value
+        })),
+      ).toPromise();
+
+      return resp.value;
+    } catch (error) {
+      throw new BadRequestException(error.message);
+    }
   }
 
   async createDocente(createDocenteRequest:CreateDocenteRequest, usuarioCreacion:string){
+    try {
+      const resp = await this.clienteUser.send({ cmd: 'create_docente' }, { request: createDocenteRequest, usuarioCreacion }).pipe(
+        tap(({ success, message }) => { if (!success) throw new BadRequestException(message) }),
+        map(({ value, ...rest }) => ({
+          ...rest,
+          value
+        })),
+      ).toPromise();
 
-    
+      return resp.value;
+    } catch (error) {
+      throw new BadRequestException(error.message);
+    }    
   }
 
   async updateDocente(idDocente:string,updateDocenteRequest:UpdateDocenteRequest, usuarioModificacion:string){
+    try {
+      const resp = await this.clienteUser.send({ cmd: 'update_docente' }, { idDocente, request: updateDocenteRequest, usuarioModificacion }).pipe(
+        tap(({ success, message }) => { if (!success) throw new BadRequestException(message) }),
+        map(({ value, ...rest }) => ({
+          ...rest,
+          value
+        })),
+      ).toPromise();
 
-      
+      return resp.value;
+    } catch (error) {
+      throw new BadRequestException(error.message);
+    }      
   }
 
   async modificarEstado(idDocente:string,modificarEstadoRequest:ModificarEstadoRequest, usuarioModificacion:string){
