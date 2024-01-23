@@ -101,6 +101,16 @@ services:
       - "7003:443"
     networks:
     - td2023
+  solicitud:
+    container_name: ms-solicitud
+    build:
+      context: ./API.Solicitudes
+    depends_on:
+      - mysql
+    ports:
+      - "8084:84"
+    networks:
+    - td2023
   gateway:
     build:
       context: ./API.Presentacion
