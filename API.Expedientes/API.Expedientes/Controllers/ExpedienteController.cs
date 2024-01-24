@@ -105,7 +105,7 @@ namespace API.Expedientes.Controllers
 
         }
 
-        [HttpDelete(ApiRoutes.Expediente.DeleteExpediente)]
+        [HttpPut(ApiRoutes.Expediente.DeleteExpediente)]
         public async Task<ActionResult<ResponseBase>> DeleteExpediente([FromBody] DeleteExpedienteCommand command)
         {
             try
