@@ -50,6 +50,11 @@ namespace API.Expedientes.Application.Features.Queries.GetExpedienteByBusqueda
                     expedientesQuery = expedientesQuery.Where(x => x.IdFacultad.ToString().Contains(request.Facultad, StringComparison.OrdinalIgnoreCase));
                 }
 
+                if (request.Tipo != null)
+                {
+                    expedientesQuery = expedientesQuery.Where(x => x.Tipo == request.Tipo);
+                }
+
                 // Resto del código de paginación y respuesta
                 var startIndex = (request.Page - 1) * request.PageSize;
                 var count = request.PageSize;
