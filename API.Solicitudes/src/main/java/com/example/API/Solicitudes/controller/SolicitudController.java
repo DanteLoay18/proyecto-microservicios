@@ -89,4 +89,26 @@ public class SolicitudController {
                             MensajesParametrizados.MENSAJE_ERROR_INTERNO_SERVIDOR, null));
         }
     }
+    @PutMapping("/solicitudUpdate/{id}")
+public ResponseEntity<ApiResponse<SolicitudRequest>> solicitudUpdate(@PathVariable int id, @RequestBody SolicitudRequest request) {
+    try {
+        SolicitudModel existingSolicitud = solicitudService.findById(id);
+        if (existingSolicitud != null) {
+            existingSolicitud = solicitudMapper.dtoTOEntity(request);
+            solicitudService.update(existingSolicitud);
+            SolicitudRequest solicitudRequest = solicitudMapper.entityToDto(existingSolicitud);
+            return ResponseEntity.ok(new ApiResponse<>(HttpStatus.OK.value(),
+                    MensajesParametrizados.MENSAJE_PACIENTE_EDITADO_EXITOSO, solicitudRequest));
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(new ApiResponse<>(HttpStatus.NOT_FOUND.value(),
+                            MensajesParametrizados.usuarioNoEncontradoPorId(id), null));
+        }
+    } catch (Exception ex) {
+        logger.error(MensajesParametrizados.MENSAJE_ERROR, ex);
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                .body(new ApiResponse<>(HttpStatus.INTERNAL_SERVER_ERROR.value(),
+                        MensajesParametrizados.MENSAJE_ERROR_INTERNO_SERVIDOR, null));
+    }
+}
 }
