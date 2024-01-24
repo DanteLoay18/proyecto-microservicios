@@ -56,30 +56,33 @@ public class SolicitudController {
     }
 
     @PostMapping
-    public ResponseEntity<?> register(@RequestBody SolicitudRequest request) throws Exception {
+    public ResponseEntity<?> crearSolicitud(@RequestBody SolicitudRequest request) throws Exception {
         try {
             SolicitudModel solicitudModel = solicitudMapper.dtoTOEntity(request);
             solicitudService.add(solicitudModel);
             logger.info(MensajesParametrizados.MENSAJE_CREAR_SOLICITUD_EXITOSO);
-            return ResponseEntity.status(HttpStatus.CREATED).body(solicitudModel);
+            return ResponseEntity.ok(new ApiResponse<>(HttpStatus.OK.value(),
+                                                        MensajesParametrizados.MENSAJE_CREAR_SOLICITUD_EXITOSO, null));
         } catch (Exception ex) {
             logger.error(MensajesParametrizados.MENSAJE_ERROR_INTERNO_SERVIDOR, ex);
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(new ApiResponse<>(HttpStatus.INTERNAL_SERVER_ERROR.value(),
+                            MensajesParametrizados.MENSAJE_ERROR_INTERNO_SERVIDOR, null));
         }
     }
 
     @GetMapping("/findSolicitudById/{id}")
-    public ResponseEntity<ApiResponse<SolicitudRequest>> findSolicitudById(@PathVariable int id) {
+    public ResponseEntity<ApiResponse<?>> findSolicitudById(@PathVariable int id) {
         try {
             SolicitudModel solicitud = solicitudService.findById(id);
             if (solicitud != null) {
-                SolicitudRequest solicitudRequest = solicitudMapper.entityToDto(solicitud);
+                SolicitudResponse solicitudResponse = solicitudMapper.entityToResponse(solicitud);
                 return ResponseEntity.ok(new ApiResponse<>(HttpStatus.OK.value(),
-                        MensajesParametrizados.MENSAJE_PACIENTE_LISTADOID, solicitudRequest));
+                        MensajesParametrizados.MENSAJE_PACIENTE_LISTADOID, solicitudResponse));
             } else {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND)
                         .body(new ApiResponse<>(HttpStatus.NOT_FOUND.value(),
-                                MensajesParametrizados.usuarioNoEncontradoPorId(id), null));
+                                MensajesParametrizados.solicitudNoEncontradoPorId(id), null));
             }
         } catch (Exception ex) {
             logger.error(MensajesParametrizados.MENSAJE_ERROR, ex);
@@ -90,20 +93,20 @@ public class SolicitudController {
     }
 
     @PutMapping("/solicitudUpdate/{id}")
-    public ResponseEntity<ApiResponse<SolicitudRequest>> solicitudUpdate(@PathVariable int id,
+    public ResponseEntity<ApiResponse<?>> solicitudUpdate(@PathVariable int id,
             @RequestBody SolicitudRequest request) {
         try {
             SolicitudModel existingSolicitud = solicitudService.findById(id);
             if (existingSolicitud != null) {
-                existingSolicitud = solicitudMapper.dtoTOEntity(request);
+                existingSolicitud = solicitudMapper.editDtoTOEntity(request, existingSolicitud);
                 solicitudService.update(existingSolicitud);
-                SolicitudRequest solicitudRequest = solicitudMapper.entityToDto(existingSolicitud);
+
                 return ResponseEntity.ok(new ApiResponse<>(HttpStatus.OK.value(),
-                        MensajesParametrizados.MENSAJE_PACIENTE_EDITADO_EXITOSO, solicitudRequest));
+                        MensajesParametrizados.MENSAJE_PACIENTE_EDITADO_EXITOSO, null));
             } else {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND)
                         .body(new ApiResponse<>(HttpStatus.NOT_FOUND.value(),
-                                MensajesParametrizados.usuarioNoEncontradoPorId(id), null));
+                                MensajesParametrizados.solicitudNoEncontradoPorId(id), null));
             }
         } catch (Exception ex) {
             logger.error(MensajesParametrizados.MENSAJE_ERROR, ex);
@@ -124,7 +127,7 @@ public class SolicitudController {
             } else {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND)
                         .body(new ApiResponse<>(HttpStatus.NOT_FOUND.value(),
-                                MensajesParametrizados.usuarioNoEncontradoPorId(id), null));
+                                MensajesParametrizados.solicitudNoEncontradoPorId(id), null));
             }
         } catch (Exception ex) {
             logger.error(MensajesParametrizados.MENSAJE_ERROR, ex);

@@ -43,4 +43,18 @@ public class SolcitudMapper {
         solicitudModel.setComentario(dto.getComentario());
         return solicitudModel;
     }
+
+    public SolicitudModel editDtoTOEntity(SolicitudRequest dto, SolicitudModel model){
+        SolicitudModel solicitudModel = new SolicitudModel();
+        solicitudModel.setId(model.getId());
+        solicitudModel.setExpediente(dto.getExpediente());
+        solicitudModel.setEscuela(dto.getEscuela());
+        solicitudModel.setFacultad(dto.getFacultad());
+        solicitudModel.setTipoSolicitud(dto.getTipoSolicitud());
+        solicitudModel.setComentario(dto.getComentario());
+        solicitudModel.setEsAceptado(model.getEsAceptado());
+        solicitudModel.setEsRevisado(model.getEsRevisado());
+        solicitudModel.setObservacion(model.getObservacion());
+        return solicitudModel;
+    }
 }
