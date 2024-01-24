@@ -24,4 +24,9 @@ export class CreateDocenteRequest{
     @IsEmail()
     @IsNotEmpty()
     email:string;
+
+    @ApiProperty()
+    @IsString()
+    @IsNotEmpty()
+    numeroDocumento:string;
 }

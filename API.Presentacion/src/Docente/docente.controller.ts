@@ -1,4 +1,4 @@
-import { Controller, Get, UseGuards, Query,Param, Post, Body, Put} from '@nestjs/common';
+import { Controller, Get, UseGuards, Query,Param, Post, Body, Put, ParseIntPipe} from '@nestjs/common';
 import { ApiBearerAuth, ApiInternalServerErrorResponse, ApiTags } from '@nestjs/swagger';
 import { AuthGuard } from '@nestjs/passport';
 import { UserRoleGuard } from 'src/Auth/jwt/guards/user-role/user-role.guard';
@@ -24,8 +24,8 @@ export class DocenteController {
     @RoleProtected(ValidRoles.admin, ValidRoles.encargado)
     @UseGuards(AuthGuard(), UserRoleGuard)
     @Get(DocenteRoutes.DocentesGetAllPaginated)
-    async findAllDocentes(@Query() paginationDto:DocentesPaginatedRequest, @GetUser("id") idUsuario:string) {
-        return  this.docenteService.findAllPaginated(paginationDto.page, paginationDto.pageSize,idUsuario);
+    async findAllDocentes(@Query() paginationDto:DocentesPaginatedRequest) {
+        return  this.docenteService.findAllPaginated(paginationDto.page, paginationDto.pageSize);
         
     }
     
@@ -34,7 +34,7 @@ export class DocenteController {
     @RoleProtected(ValidRoles.admin, ValidRoles.encargado)
     @UseGuards(AuthGuard(), UserRoleGuard)
     @Get(DocenteRoutes.DocenteById)
-    async findById(@Param('idDocente') idDocente:string) {
+    async findById(@Param('idDocente',ParseIntPipe) idDocente:number) {
 
       return  this.docenteService.findOneById(idDocente);
         
@@ -45,9 +45,9 @@ export class DocenteController {
     @RoleProtected(ValidRoles.admin, ValidRoles.encargado)
     @UseGuards(AuthGuard(), UserRoleGuard)
     @Get(DocenteRoutes.DocentesByBusqueda)
-    async findByBusqueda(@Query() findByBusquedaPaginatedRequest:FindByBusquedaPaginatedRequest, @GetUser("id") idUsuario:string) {
+    async findByBusqueda(@Query() findByBusquedaPaginatedRequest:FindByBusquedaPaginatedRequest) {
 
-      return  this.docenteService.findByBusqueda(findByBusquedaPaginatedRequest, idUsuario);
+      return  this.docenteService.findByBusqueda(findByBusquedaPaginatedRequest);
         
     }
 
@@ -100,9 +100,9 @@ export class DocenteController {
     @RoleProtected(ValidRoles.admin)
     @UseGuards(AuthGuard(), UserRoleGuard)
     @Put(DocenteRoutes.ModificarEstado)
-    async modificarEstado(@Param("idDocente") idDocente:string,@Body() modificarEstadoRequest:ModificarEstadoRequest, @GetUser("id") usuarioModificacion:string) {
+    async modificarEstado(@Param("idDocente") idDocente:string, @GetUser("id") usuarioModificacion:string) {
 
-      return  this.docenteService.modificarEstado(idDocente,modificarEstadoRequest, usuarioModificacion);
+      return  this.docenteService.deleteDocente(idDocente, usuarioModificacion);
         
     }
   

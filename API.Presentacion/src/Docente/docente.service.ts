@@ -1,131 +1,93 @@
 import { Injectable,Inject, BadRequestException } from '@nestjs/common';
 import { ClientProxy } from '@nestjs/microservices';
 
-import { map, tap, lastValueFrom, mergeMap } from 'rxjs';
+import { map, tap} from 'rxjs';
 import { v4 } from 'uuid';
 import { CreateDocenteRequest } from './dto/create-docente.request';
-import { FacultadService } from 'src/Facultad/facultad.service';
 import { UpdateDocenteRequest } from './dto/update-docente.request';
 import { FindByBusquedaPaginatedRequest } from './dto/find-by-busqueda';
 import { ModificarEstadoRequest } from './dto/modificar-estado.request';
 import { FindByEscuelaRequest } from './dto/find-by-escuela.request';
+import axios from 'axios';
 
 @Injectable()
 export class DocenteService {
   
-  constructor(
-    @Inject('DOCENTE_SERVICE_TRANSPORT') private clienteUser: ClientProxy,
-    private readonly facultadService:FacultadService
-    ) {}
+  private apiDocente = process.env.API_DOCENTE;
+  private rootInternet = "http://";
+  private rootApi = "/api/v1";
+  private nombre = "/docente";
   
-  async findAllPaginated(page:number, pageSize:number, idUsuario:string){
+  async findAllPaginated(page:number, pageSize:number){
     try {
-      const resp = await axios.get(`${this.rootInternet}${this.apiExpediente}${this.rootApi}${this.nombreExpediente}?Page=${page}&PageSize=${pageSize}&idUsuario=${idUsuario}`);
+      const resp = await axios.get(`${this.rootInternet}${this.apiDocente}${this.rootApi}${this.nombre}/findDocentesPaginated?Page=${page}&PageSize=${pageSize}`)
       return resp.data;
     } catch (error) {
-      throw new BadRequestException(error.message);
-    }  
+      return error;
+    }
   }
 
-  async findByBusqueda(findByBusquedaPaginatedRequest:FindByBusquedaPaginatedRequest, idUsuario:string){
+  async findOneById(idDocente:number){
     try {
-      const resp = await this.clienteUser.send({ cmd: 'find_by_busqueda' }, { request: findByBusquedaPaginatedRequest, idUsuario }).pipe(
-        tap(({ success, message }) => { if (!success) throw new BadRequestException(message) }),
-        map(({ value, ...rest }) => ({
-          ...rest,
-          value
-        })),
-      ).toPromise();
-
-      return resp.value;
+      const resp = await axios.get(`${this.rootInternet}${this.apiDocente}${this.rootApi}${this.nombre}/findDocenteById/${idDocente}`)
+      return resp.data;
     } catch (error) {
-      throw new BadRequestException(error.message);
+      return error;
     }
   }
   
-  findByEscuela(findByEscuelaRequest:FindByEscuelaRequest){
-    return this.clienteUser.send({cmd:'findByEscuela_docente'},{...findByEscuelaRequest}).pipe(
-                                                                                                                  map(({value, ...rest})=> {
-                                                                                                                    const newItems= value.map(({_id, ...rest})=> {
-                                                                                                                      const buffer = Buffer.from(_id);
-                                                                                                                      const uuid = v4({ random: buffer });
-                                                                                                                    
-                                                                                                                      return {
-                                                                                                                        _id:uuid,
-                                                                                                                        ...rest
-                                                                                                                      }
-                                                                                                                    })
-                                                                                                                    return {
-                                                                                                                      ...rest,
-                                                                                                                      value:newItems,
-
-                                                                                                                    }
-                                                                                                                  }),
-                                                                                                                );
-  }
-
-  async findByFacultad(idUsuario:string){
+  async findByEscuela({idEscuela}:FindByEscuelaRequest){
     try {
-      const resp = await axios.get(`${this.rootInternet}${this.apiExpediente}${this.rootApi}${this.nombreExpediente}/findByFacultad?idUsuario=${idUsuario}`);
+      const resp = await axios.get(`${this.rootInternet}${this.apiDocente}${this.rootApi}${this.nombre}/findDocentesByEscuela/${idEscuela}`);
       return resp.data;
     } catch (error) {
       throw new BadRequestException(error.message);
     }
   }
 
-
-  findOneById(idDocente:string){
+  async findByFacultad(idFacultad:string){
     try {
-      const resp = await this.clienteUser.send({ cmd: 'findOne_docente' }, idDocente).pipe(
-        tap(({ success, message }) => { if (!success) throw new BadRequestException(message) }),
-        map(({ value, ...rest }) => ({
-          ...rest,
-          value
-        })),
-      ).toPromise();
-
-      return resp.value;
+      const resp = await axios.get(`${this.rootInternet}${this.apiDocente}${this.rootApi}${this.nombre}/findDocentesByFacultad/${idFacultad}`);
+      return resp.data;
     } catch (error) {
       throw new BadRequestException(error.message);
     }
   }
 
-  async createDocente(createDocenteRequest:CreateDocenteRequest, usuarioCreacion:string){
+  async findByBusqueda({page, pageSize, email, idEscuela, idFacultad,nombreCompleto}:FindByBusquedaPaginatedRequest){
     try {
-      const resp = await this.clienteUser.send({ cmd: 'create_docente' }, { request: createDocenteRequest, usuarioCreacion }).pipe(
-        tap(({ success, message }) => { if (!success) throw new BadRequestException(message) }),
-        map(({ value, ...rest }) => ({
-          ...rest,
-          value
-        })),
-      ).toPromise();
-
-      return resp.value;
+      const resp = await axios.get(`${this.rootInternet}${this.apiDocente}${this.rootApi}${this.nombre}/findDocentesByBusqueda?Page=${page}&PageSize=${pageSize}&IdEscuela=${idEscuela}&Email=${email}&IdFacultad=${idFacultad}&NombreCompleto=${nombreCompleto}`);
+      return resp.data;
     } catch (error) {
       throw new BadRequestException(error.message);
-    }    
+    }
   }
 
-  async updateDocente(idDocente:string,updateDocenteRequest:UpdateDocenteRequest, usuarioModificacion:string){
+  async createDocente(createDocenteRequest:CreateDocenteRequest, idUsuario:string){
     try {
-      const resp = await this.clienteUser.send({ cmd: 'update_docente' }, { idDocente, request: updateDocenteRequest, usuarioModificacion }).pipe(
-        tap(({ success, message }) => { if (!success) throw new BadRequestException(message) }),
-        map(({ value, ...rest }) => ({
-          ...rest,
-          value
-        })),
-      ).toPromise();
-
-      return resp.value;
+      const resp = await axios.post(`${this.rootInternet}${this.apiDocente}${this.rootApi}${this.nombre}/createDocente`,{...createDocenteRequest, idUsuario});
+      return resp.data;
     } catch (error) {
       throw new BadRequestException(error.message);
-    }      
+    }
   }
 
-  async modificarEstado(idDocente:string,modificarEstadoRequest:ModificarEstadoRequest, usuarioModificacion:string){
-      return this.clienteUser.send({cmd:'modificar_estado_docente'},{idUsuario:usuarioModificacion, ...modificarEstadoRequest, idDocente}).pipe(
-                                                                        tap(({success, message}) =>{ if(!success) throw new BadRequestException(message)} ),                                         
-                                                                  );
+  async updateDocente(idDocente:string,updateDocenteRequest:UpdateDocenteRequest, idUsuario:string){
+    try {
+      const resp = await axios.put(`${this.rootInternet}${this.apiDocente}${this.rootApi}${this.nombre}/updateDocente`,{...updateDocenteRequest,idDocente, idUsuario});
+      return resp.data;
+    } catch (error) {
+      throw new BadRequestException(error.message);
+    }
+  }
+
+  async deleteDocente(idDocente:string, idUsuario:string){
+    try {
+      const resp = await axios.put(`${this.rootInternet}${this.apiDocente}${this.rootApi}${this.nombre}/deleteDocente`,{idDocente, idUsuario});
+      return resp.data;
+    } catch (error) {
+      throw new BadRequestException(error.message);
+    }
   }
     
 }

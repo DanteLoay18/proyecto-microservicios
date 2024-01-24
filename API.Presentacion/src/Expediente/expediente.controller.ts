@@ -23,8 +23,8 @@ export class ExpedienteController {
     @RoleProtected(ValidRoles.encargado, ValidRoles.estudiante)
     @UseGuards(AuthGuard(), UserRoleGuard)
     @Get(ExpedienteRoutes.ExpedientesGetAllPaginated)
-    async findAllExpedientes(@Query() paginationDto:ExpedientesPaginatedRequest, @GetUser("rol") rolUsuario:string, @GetUser("id") idUsuario:string) {
-        return  this.expedienteService.findAllPaginated(paginationDto.page, paginationDto.pageSize,rolUsuario, idUsuario);
+    async findAllExpedientes(@Query() paginationDto:ExpedientesPaginatedRequest) {
+        return  this.expedienteService.findAllPaginated(paginationDto.page, paginationDto.pageSize);
         
     }
     
@@ -44,9 +44,9 @@ export class ExpedienteController {
     @RoleProtected(ValidRoles.encargado,ValidRoles.estudiante)
     @UseGuards(AuthGuard(), UserRoleGuard)
     @Get(ExpedienteRoutes.ExpedientesByBusqueda)
-    async findByBusqueda(@Query() findByBusquedaPaginatedRequest:FindByBusquedaPaginatedRequest,@GetUser("rol") rolUsuario:string, @GetUser("id") idUsuario:string) {
+    async findByBusqueda(@Query() findByBusquedaPaginatedRequest:FindByBusquedaPaginatedRequest) {
 
-      return  this.expedienteService.findByBusqueda(findByBusquedaPaginatedRequest, rolUsuario, idUsuario);
+      return  this.expedienteService.findExpedienteByBusqueda(findByBusquedaPaginatedRequest);
         
     }
 
@@ -55,9 +55,9 @@ export class ExpedienteController {
     @RoleProtected(ValidRoles.encargado, ValidRoles.estudiante)
     @UseGuards(AuthGuard(), UserRoleGuard)
     @Post(ExpedienteRoutes.CreateExpediente)
-    async createExpediente(@Body() createExpedienteRequest:CreateExpedienteRequest,@GetUser("rol") rolUsuario:string, @GetUser("id") usuarioCreacion:string) {
+    async createExpediente(@Body() createExpedienteRequest:CreateExpedienteRequest, @GetUser("id") usuarioCreacion:string) {
 
-      return  this.expedienteService.createExpediente(createExpedienteRequest,rolUsuario, usuarioCreacion);
+      return  this.expedienteService.createExpediente(usuarioCreacion, createExpedienteRequest, );
         
     }
 
@@ -66,9 +66,9 @@ export class ExpedienteController {
     @RoleProtected(ValidRoles.encargado, ValidRoles.estudiante)
     @UseGuards(AuthGuard(), UserRoleGuard)
     @Put(ExpedienteRoutes.UpdateExpediente)
-    async updateExpediente(@Body() updateExpedienteRequest:UpdateExpedienteRequest,@GetUser("rol") rolUsuario:string, @GetUser("id") usuarioModificacion:string) {
+    async updateExpediente(@Body() updateExpedienteRequest:UpdateExpedienteRequest, @GetUser("id") usuarioModificacion:string) {
 
-      return  this.expedienteService.updateExpediente(updateExpedienteRequest,rolUsuario, usuarioModificacion);
+      return  this.expedienteService.updateExpediente(usuarioModificacion, updateExpedienteRequest );
         
     }
 
@@ -77,9 +77,9 @@ export class ExpedienteController {
     @RoleProtected(ValidRoles.encargado)
     @UseGuards(AuthGuard(), UserRoleGuard)
     @Put(ExpedienteRoutes.ValidarExpediente)
-    async validarExpediente(@Body() validarExpedienteRequest:ValidarExpedienteRequest, @GetUser("id") usuarioModificacion:string) {
+    async validarExpediente(@Body() {idExpediente}:ValidarExpedienteRequest, @GetUser("id") usuarioModificacion:string) {
 
-      return  this.expedienteService.validarExpediente(validarExpedienteRequest,usuarioModificacion);
+      return  this.expedienteService.validarExpediente(idExpediente,usuarioModificacion);
         
     }
 
@@ -89,9 +89,9 @@ export class ExpedienteController {
     @RoleProtected(ValidRoles.encargado, ValidRoles.estudiante)
     @UseGuards(AuthGuard(), UserRoleGuard)
     @Delete(ExpedienteRoutes.EliminarExpediente)
-    async eliminarExpediente(@Param("idExpediente") idExpediente:string, @GetUser("id") usuarioModificacion:string, @GetUser("rol") rolUsuario:string) {
+    async eliminarExpediente(@Param("idExpediente") idExpediente:string, @GetUser("id") usuarioModificacion:string,) {
 
-      return  this.expedienteService.eliminarExpediente(idExpediente,rolUsuario, usuarioModificacion);
+      return  this.expedienteService.deleteExpediente(idExpediente, usuarioModificacion);
         
     }
 
