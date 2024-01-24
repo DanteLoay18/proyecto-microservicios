@@ -29,6 +29,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -141,9 +142,59 @@ public class SesionController {
             MensajeParametrizados.MENSAJE_ERROR_INTERNO_SERVIDOR, null));
         }
     }
-
     
+    @PutMapping("/update/{id}")
+    public ResponseEntity<ApiResponse<SesionResponse>> updateSesion(@PathVariable Integer id, @RequestBody CreateSesionRequest updateSesionRequest) {
+        try {
+            SesionModel existingSesion = sesionService.findById(id);
 
+            if (existingSesion == null) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                        .body(new ApiResponse<>(HttpStatus.NOT_FOUND.value(),
+                                MensajeParametrizados.MENSAJE_ERROR_NO_ENCONTRADO, null));
+            }
 
+            // Actualizar la sesión con los datos proporcionados
+            existingSesion = sesionMapper.updateSesionFromRequest(existingSesion, updateSesionRequest);
+            sesionService.update(existingSesion);
+
+            // Mapear la sesión actualizada a un DTO de respuesta
+            SesionResponse sesionResponse = sesionMapper.entityToDto(existingSesion, null);
+
+            return ResponseEntity.ok(new ApiResponse<>(HttpStatus.OK.value(),
+                    MensajeParametrizados.MENSAJE_MODIFICAR_EXITOSO, sesionResponse));
+        } catch (Exception ex) {
+            logger.error(MensajeParametrizados.MENSAJE_ERROR, ex);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(new ApiResponse<>(HttpStatus.INTERNAL_SERVER_ERROR.value(),
+                            MensajeParametrizados.MENSAJE_ERROR_INTERNO_SERVIDOR, null));
+        }
+    }
+
+    @GetMapping("/findSolicitudByIdSesion/{idSesion}")
+    public ResponseEntity<ApiResponse<List<SolicitudResponse>>> findSolicitudByIdSesion(@PathVariable Integer idSesion) {
+        try {
+            SesionModel sesion = sesionService.findById(idSesion);
+
+            if (sesion == null) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                        .body(new ApiResponse<>(HttpStatus.NOT_FOUND.value(),
+                                MensajeParametrizados.MENSAJE_ERROR_NO_ENCONTRADO, null));
+            }
+
+            // Mapear las solicitudes de la sesión a DTOs de respuesta
+            List<SolicitudResponse> solicitudesResponse = sesion.getSolicitudes().stream()
+                    .map(solicitudesMapper::entityToDto)
+                    .collect(Collectors.toList());
+
+            return ResponseEntity.ok(new ApiResponse<>(HttpStatus.OK.value(),
+                    MensajeParametrizados.MENSAJE_MODIFICAR_EXITOSO, solicitudesResponse));
+        } catch (Exception ex) {
+            logger.error(MensajeParametrizados.MENSAJE_ERROR, ex);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(new ApiResponse<>(HttpStatus.INTERNAL_SERVER_ERROR.value(),
+                            MensajeParametrizados.MENSAJE_ERROR_INTERNO_SERVIDOR, null));
+        }
+    }
 
 }
