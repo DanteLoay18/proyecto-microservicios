@@ -6,6 +6,7 @@ import com.example.API.Solicitudes.Mapper.SolcitudMapper;
 import com.example.API.Solicitudes.constantes.MensajesParametrizados;
 import com.example.API.Solicitudes.dto.ApiResponse;
 import com.example.API.Solicitudes.dto.SolicitudRequest;
+import com.example.API.Solicitudes.dto.SolicitudResponse;
 import com.example.API.Solicitudes.model.SolicitudModel;
 import com.example.API.Solicitudes.service.ISolicitudService;
 
@@ -38,11 +39,11 @@ public class SolicitudController {
     private static final Logger logger = LoggerFactory.getLogger(SolicitudController.class);
 
     @GetMapping("/getAll")
-    public ResponseEntity<ApiResponse<List<SolicitudRequest>>> getAll() {
+    public ResponseEntity<ApiResponse<List<SolicitudResponse>>> getAll() {
         try {
             List<SolicitudModel> usuarios = solicitudService.findAll();
-            List<SolicitudRequest> authRequests = usuarios.stream()
-                    .map(solicitudMapper::entityToDto)
+            List<SolicitudResponse> authRequests = usuarios.stream()
+                    .map(solicitudMapper::entityToResponse)
                     .collect(Collectors.toList());
             return ResponseEntity.ok(new ApiResponse<>(HttpStatus.OK.value(),
                     "", authRequests));
