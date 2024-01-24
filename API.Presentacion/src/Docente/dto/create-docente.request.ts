@@ -11,14 +11,12 @@ export class CreateDocenteRequest{
     nombreCompleto:string
 
     @ApiProperty()
-    @IsUUID()
     @IsNotEmpty()
-    idEscuela:string
+    idEscuela:number
 
     @ApiProperty()
-    @IsUUID()
     @IsNotEmpty()
-    idFacultad:string
+    idFacultad:number
 
     @ApiProperty()
     @IsEmail()

@@ -56,7 +56,18 @@ export class DocenteService {
 
   async findByBusqueda({page, pageSize, email, idEscuela, idFacultad,nombreCompleto}:FindByBusquedaPaginatedRequest){
     try {
-      const resp = await axios.get(`${this.rootInternet}${this.apiDocente}${this.rootApi}${this.nombre}/findDocentesByBusqueda?Page=${page}&PageSize=${pageSize}&IdEscuela=${idEscuela}&Email=${email}&IdFacultad=${idFacultad}&NombreCompleto=${nombreCompleto}`);
+
+      const urlParams = new URLSearchParams();
+
+      if (page) urlParams.append('Page',""+page);
+      if (pageSize) urlParams.append('PageSize', ""+pageSize);
+      if (idEscuela) urlParams.append('IdEscuela', idEscuela);
+      if (email) urlParams.append('Email', email);
+      if (idFacultad) urlParams.append('IdFacultad', idFacultad);
+      if (nombreCompleto) urlParams.append('NombreCompleto', nombreCompleto);
+
+      const resp = await axios.get(`${this.rootInternet}${this.apiDocente}${this.rootApi}${this.nombre}/findDocentesByBusqueda?${urlParams.toString()}`);
+           
       return resp.data;
     } catch (error) {
       throw new BadRequestException(error.message);
