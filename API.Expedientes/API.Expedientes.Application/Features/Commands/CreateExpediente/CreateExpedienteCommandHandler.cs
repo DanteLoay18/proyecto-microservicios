@@ -34,7 +34,7 @@ namespace API.Expedientes.Application.Features.Commands.CreateExpediente
                 var expedienteEntity = _mapper.Map<Expediente>(request);
 
                 await _uow.Repository<Expediente>().AddAsync(expedienteEntity);
-                return ResponseUtil.OK(expedienteEntity.Id);
+                return ResponseUtil.OK(expedienteEntity.Id, MessageConstant.OkRequestRegistro);
 
             }
             catch (Exception ex)

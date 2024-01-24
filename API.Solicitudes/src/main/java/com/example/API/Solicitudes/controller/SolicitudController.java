@@ -6,6 +6,7 @@ import com.example.API.Solicitudes.Mapper.SolcitudMapper;
 import com.example.API.Solicitudes.constantes.MensajesParametrizados;
 import com.example.API.Solicitudes.dto.ApiResponse;
 import com.example.API.Solicitudes.dto.SolicitudRequest;
+import com.example.API.Solicitudes.dto.SolicitudResponse;
 import com.example.API.Solicitudes.model.SolicitudModel;
 import com.example.API.Solicitudes.service.ISolicitudService;
 
@@ -38,11 +39,11 @@ public class SolicitudController {
     private static final Logger logger = LoggerFactory.getLogger(SolicitudController.class);
 
     @GetMapping("/getAll")
-    public ResponseEntity<ApiResponse<List<SolicitudRequest>>> getAll() {
+    public ResponseEntity<ApiResponse<List<SolicitudResponse>>> getAll() {
         try {
             List<SolicitudModel> usuarios = solicitudService.findAll();
-            List<SolicitudRequest> authRequests = usuarios.stream()
-                    .map(solicitudMapper::entityToDto)
+            List<SolicitudResponse> authRequests = usuarios.stream()
+                    .map(solicitudMapper::entityToResponse)
                     .collect(Collectors.toList());
             return ResponseEntity.ok(new ApiResponse<>(HttpStatus.OK.value(),
                     "", authRequests));
@@ -58,13 +59,12 @@ public class SolicitudController {
     public ResponseEntity<?> register(@RequestBody SolicitudRequest request) throws Exception {
         try {
             SolicitudModel solicitudModel = solicitudMapper.dtoTOEntity(request);
-
             solicitudService.add(solicitudModel);
             logger.info(MensajesParametrizados.MENSAJE_CREAR_SOLICITUD_EXITOSO);
             return ResponseEntity.status(HttpStatus.CREATED).body(solicitudModel);
         } catch (Exception ex) {
             logger.error(MensajesParametrizados.MENSAJE_ERROR_INTERNO_SERVIDOR, ex);
-            return ResponseEntity.status(HttpStatus.OK).body(null);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
         }
     }
 
@@ -134,6 +134,4 @@ public class SolicitudController {
         }
     }
 
-
-    
 }

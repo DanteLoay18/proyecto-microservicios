@@ -1,5 +1,5 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { IsArray, IsNumber, IsOptional, IsString, IsUUID } from "class-validator";
+import { IsArray, IsNotEmpty, IsNumber, IsOptional, IsString, IsUUID } from "class-validator";
 
 export class Estudiante{
     @ApiProperty({
@@ -12,19 +12,6 @@ export class Estudiante{
     nombre: string;
 }
 
-export class Jurado{
-    @ApiProperty({
-        description:'Cargo Jurado'
-    })
-    @IsString()
-   cargo: string;
-
-   @ApiProperty({
-    description:'Id Docente Jurado'
-   })
-   @IsUUID()
-   docente:string;
-}
 
 export class CreateExpedienteRequest{
 
@@ -37,28 +24,23 @@ export class CreateExpedienteRequest{
     @ApiProperty({
         description:'Numero Expediente Expediente'
     })
-    @IsOptional()
+    @IsNotEmpty()
     @IsString()
     numeroExpediente?:string;
 
     @ApiProperty({
-        description:'Titulo Proyecto Expediente'
-    })
-    @IsOptional()
-    @IsString()
-    tituloProyecto?:string;
-
-    @ApiProperty({
         description:'id escuela Expediente'
     })
-    @IsUUID()
-    escuela:string;
+    @IsNotEmpty()
+    @IsNumber()
+    idEscuela:number;
 
     @ApiProperty({
         description:'id facultad Expediente'
     })
-    @IsUUID()
-    facultad:string;
+    @IsNotEmpty()
+    @IsNumber()
+    idFacultad:number;
 
     @ApiProperty({
         description:'estudiantes Expediente',
@@ -68,27 +50,6 @@ export class CreateExpedienteRequest{
     @IsArray()
     estudiantes: Estudiante[];
 
-    @ApiProperty({
-        description:'jurados Expediente',
-        type: Jurado,
-        isArray: true
-    })
-    @IsOptional()
-    jurados?: Jurado[];
-
-    @ApiProperty({
-        description:'Asesor Expediente'
-    })
-    @IsString()
-    @IsOptional()
-    asesor ?:string;
-
-    @ApiProperty({
-        description:'Fecha Sustentacion Expediente'
-    })
-    @IsString()
-    @IsOptional()
-    fechaSustentacion?:string;
 }
 
 

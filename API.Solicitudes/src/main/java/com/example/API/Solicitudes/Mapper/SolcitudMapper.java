@@ -3,6 +3,7 @@ package com.example.API.Solicitudes.Mapper;
 import org.springframework.stereotype.Component;
 
 import com.example.API.Solicitudes.dto.SolicitudRequest;
+import com.example.API.Solicitudes.dto.SolicitudResponse;
 import com.example.API.Solicitudes.model.SolicitudModel;
 
 @Component
@@ -17,6 +18,21 @@ public class SolcitudMapper {
         dto.setExpediente(solcitudModel.getExpediente());
         return dto;
     }
+
+    public SolicitudResponse entityToResponse(SolicitudModel solcitudModel){
+        SolicitudResponse dto = new SolicitudResponse();
+        dto.setId(solcitudModel.getId());
+        dto.setComentario(solcitudModel.getComentario());
+        dto.setEscuela(solcitudModel.getEscuela());
+        dto.setTipoSolicitud(solcitudModel.getTipoSolicitud());
+        dto.setFacultad(solcitudModel.getFacultad());
+        dto.setExpediente(solcitudModel.getExpediente());
+        dto.setEsAceptado(solcitudModel.getEsAceptado());
+        dto.setEsRevisado(solcitudModel.getEsRevisado());
+        dto.setObservacion(solcitudModel.getObservacion());
+        return dto;
+    }
+
 
     public SolicitudModel dtoTOEntity(SolicitudRequest dto){
         SolicitudModel solicitudModel = new SolicitudModel();

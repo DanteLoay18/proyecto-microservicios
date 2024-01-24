@@ -5,7 +5,6 @@ export class FindByEscuelaRequest{
     @ApiProperty({
         description:'id Escuela'
     })
-    @IsUUID()
     idEscuela : string;
 
 }

@@ -39,7 +39,6 @@ export class FindByBusquedaPaginatedRequest{
         required:false,
         nullable:true
     })
-    @IsUUID()
     @IsOptional()
     idEscuela:string;
 
@@ -47,7 +46,6 @@ export class FindByBusquedaPaginatedRequest{
         required:false,
         nullable:true
     })
-    @IsUUID()
     @IsOptional()
     idFacultad:string;
 }
