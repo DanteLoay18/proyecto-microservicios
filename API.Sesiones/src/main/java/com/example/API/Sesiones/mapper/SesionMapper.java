@@ -41,4 +41,20 @@ public class SesionMapper {
         return sesionModel;
     }
 
+    public SesionModel updateSesionFromRequest(SesionModel sesion, CreateSesionRequest updateSesionRequest) {
+        // Actualizar los campos relevantes de la sesión con los datos proporcionados en updateSesionRequest
+        sesion.setNumeroSesion(updateSesionRequest.getNumeroSesion());
+        sesion.setFacultad(updateSesionRequest.getFacultad());
+        sesion.setFechaSesion(updateSesionRequest.getFechaSesion());
+
+        // Actualizar los miembros de la comisión con los datos proporcionados
+        MiembroComisionModel miembroComision = sesion.getMiembroComision();
+        miembroComision.setPresidente(updateSesionRequest.getPresidente());
+        miembroComision.setMiembro1(updateSesionRequest.getMiembro1());
+        miembroComision.setMiembro2(updateSesionRequest.getMiembro2());
+        miembroComision.setMiembro3(updateSesionRequest.getMiembro3());
+
+        return sesion;
+    }
+
 }
