@@ -107,6 +107,18 @@ services:
       context: ./API.Solicitudes
     depends_on:
       - mysql
+      - broker
+    ports:
+      - "8084:84"
+    networks:
+    - td2023
+  sesiones:
+    container_name: ms-sesion
+    build:
+      context: ./API.Sesiones
+    depends_on:
+      - mysql
+      - broker
     ports:
       - "8084:84"
     networks:
