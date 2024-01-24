@@ -153,7 +153,7 @@ namespace API.Docentes.Controllers
 
         }
 
-        [HttpDelete(ApiRoutes.Docente.DeleteDocente)]
+        [HttpPut(ApiRoutes.Docente.DeleteDocente)]
         public async Task<ActionResult<ResponseBase>> DeleteDocente([FromBody] DeleteDocenteRequest deleteDocenteRequest)
         {
             try
