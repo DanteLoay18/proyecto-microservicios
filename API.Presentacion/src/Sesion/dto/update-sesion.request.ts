@@ -1,7 +1,7 @@
 
 
 import { ApiProperty, PartialType } from "@nestjs/swagger";
-import { IsNotEmpty, IsString } from "class-validator";
+import { IsNotEmpty, IsNumber, IsString } from "class-validator";
 import { CreateSesionRequest } from "./create-sesion.request";
 
 
@@ -10,6 +10,6 @@ export class UpdateSesionRequest extends PartialType(CreateSesionRequest){
         description:'Id Sesion'
     })
     @IsNotEmpty()
-    @IsString()
-    idSesion:string;
+    @IsNumber()
+    idSesion:number;
 }

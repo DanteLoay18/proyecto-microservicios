@@ -1,5 +1,5 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { IsNotEmpty, IsString, IsUUID } from "class-validator";
+import { IsNotEmpty, IsNumber, IsString, IsUUID } from "class-validator";
 
 
 export class CreateSesionRequest{
@@ -22,29 +22,36 @@ export class CreateSesionRequest{
         description:'Presidente Sesion'
     })
     @IsNotEmpty()
-    @IsUUID()
+    @IsString()
     presidente:string;
 
     @ApiProperty({
         description:'Miembro1  Sesion'
     })
     @IsNotEmpty()
-    @IsUUID()
+    @IsString()
     miembro1: string;
 
     @ApiProperty({
         description:'Miembro2  Sesion'
     })
     @IsNotEmpty()
-    @IsUUID()
+    @IsString()
     miembro2: string;
 
     @ApiProperty({
         description:'Miembro3 Sesion'
     })
     @IsNotEmpty()
-    @IsUUID()
+    @IsString()
     miembro3: string;
+
+    @ApiProperty({
+        description:'Id Facultad'
+    })
+    @IsNotEmpty()
+    @IsNumber()
+    facultad:number;
 
 
 }

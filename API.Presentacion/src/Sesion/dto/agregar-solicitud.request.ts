@@ -1,5 +1,5 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { IsNotEmpty, IsString } from "class-validator";
+import { IsNotEmpty, IsNumber, IsString } from "class-validator";
 
 export class AgregarSolicitudRequest{
 
@@ -7,15 +7,15 @@ export class AgregarSolicitudRequest{
         description:'id Solicitud'
     })
     @IsNotEmpty()
-    @IsString()
-    idSolicitud:string;
+    @IsNumber()
+    idSolicitud:number;
 
     @ApiProperty({
         description:'id Sesion'
     })
     @IsNotEmpty()
-    @IsString()
-    idSesion:string;
+    @IsNumber()
+    idSesion:number;
 
     @ApiProperty({
         description:'Observacion de la Solicitud'

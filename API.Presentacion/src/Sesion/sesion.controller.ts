@@ -26,8 +26,8 @@ export class SesionController {
   @RoleProtected(ValidRoles.encargado)
   @UseGuards(AuthGuard(), UserRoleGuard)
   @Get(SesionRoutes.SesionsGetAll)
-  async findAllExpedientes(@Query() paginationDto:SesionesPaginatedRequest, @GetUser("id") idUsuario:string) {
-      return  this.sesionService.findAllPaginated(paginationDto.page, paginationDto.pageSize, idUsuario);
+  async findAllExpedientes() {
+      return  this.sesionService.findAll();
       
   }
   
@@ -47,9 +47,9 @@ export class SesionController {
   @RoleProtected(ValidRoles.encargado)
   @UseGuards(AuthGuard(), UserRoleGuard)
   @Post(SesionRoutes.CreateSesion)
-  async createSesion(@Body() createSesionRequest:CreateSesionRequest, @GetUser("id") usuarioCreacion:string) {
+  async createSesion(@Body() createSesionRequest:CreateSesionRequest) {
 
-    return  this.sesionService.createSesion(createSesionRequest, usuarioCreacion);
+    return  this.sesionService.createSesion(createSesionRequest);
       
   }
 
@@ -58,9 +58,9 @@ export class SesionController {
   @RoleProtected(ValidRoles.encargado)
   @UseGuards(AuthGuard(), UserRoleGuard)
   @Put(SesionRoutes.UpdateSesion)
-  async updateSesion(@Body() updateSesionRequest:UpdateSesionRequest, @GetUser("id") usuarioModificacion:string) {
+  async updateSesion(@Body() updateSesionRequest:UpdateSesionRequest) {
 
-    return  this.sesionService.updateSesion(updateSesionRequest, usuarioModificacion);
+    return  this.sesionService.updateSesion(updateSesionRequest);
       
   }
 
@@ -69,9 +69,9 @@ export class SesionController {
   @RoleProtected(ValidRoles.encargado)
   @UseGuards(AuthGuard(), UserRoleGuard)
   @Put(SesionRoutes.AgregarSolicitud)
-  async agregarSolicitud(@Body() agregarSolicitudRequest:AgregarSolicitudRequest, @GetUser("id") usuarioModificacion:string) {
+  async agregarSolicitud(@Body() agregarSolicitudRequest:AgregarSolicitudRequest) {
 
-    return  this.sesionService.agregarSolicitud(agregarSolicitudRequest, usuarioModificacion);
+    return  this.sesionService.agregarSolicitud(agregarSolicitudRequest);
       
   }
     

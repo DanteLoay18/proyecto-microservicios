@@ -1,63 +1,64 @@
-import { Injectable,Inject, BadRequestException } from '@nestjs/common';
-import { ClientProxy } from '@nestjs/microservices';
-
-import { map, tap, lastValueFrom,} from 'rxjs';
-import { FacultadService } from 'src/Facultad/facultad.service';
-import { v4 } from 'uuid';
+import { Injectable, } from '@nestjs/common';
 import { CreateSesionRequest } from './dto/create-sesion.request';
 import { FindByBusquedaPaginatedRequest } from './dto/find-by-busqueda.request';
 import { UpdateSesionRequest } from './dto/update-sesion.request';
 import { AgregarSolicitudRequest } from './dto/agregar-solicitud.request';
-import { SolicitudService } from 'src/Solicitud/solicitud.service';
-
+import axios from 'axios';
 
 @Injectable()
 export class SesionService {
   
-  constructor(
-    @Inject('SESION_SERVICE_TRANSPORT') private clienteUser: ClientProxy,
-    private facultadService:FacultadService,
-    private solicitudService:SolicitudService
-    ) {}
+  private apiSesion = process.env.API_SESION;
+  private rootInternet = "http://";
+  private rootApi = "/api/v1";
+  private nombre = "/sesion";
     
-    async findUltimoIteracionMiembroComision(idUsuario:string){
-      
+  async findAll(){
+    try {
+      const resp = await axios.get(`${this.rootInternet}${this.apiSesion}${this.rootApi}${this.nombre}/getAll`)
+      return resp.data;
+    } catch (error) {
+      return error;
     }
-
-    async findAllPaginated(page:number, pageSize:number, idUsuario:string){
-  
-      
-    }
-  
-   
     
-    findOneById(idSesion:string){
-      
+  }
+    
+  async findOneById(idSesion:string){
+    try {
+      const resp = await axios.get(`${this.rootInternet}${this.apiSesion}${this.rootApi}${this.nombre}/findSesionById/${idSesion}`)
+      return resp.data;
+    } catch (error) {
+      return error;
     }
-
-    async findSolicitudesBySesion(idSesion:string, page:number, pageSize:number){
-     
-    }
-
-    async findByBusqueda(findByBusquedaPaginatedRequest:FindByBusquedaPaginatedRequest, idUsuario:string){
-  
-      
-    }
-  
+  }
  
-    async createSesion(createSesionRequest:CreateSesionRequest, idUsuario:string){
-
+    async createSesion(createSesionRequest:CreateSesionRequest){
+      try {
+        const resp = await axios.post(`${this.rootInternet}${this.apiSesion}${this.rootApi}${this.nombre}/crear-sesion`, {...createSesionRequest})
+        return resp.data;
+      } catch (error) {
+        return error;
+      }
       
     }
 
-    async updateSesion(updateSesionRequest:UpdateSesionRequest, idUsuario:string){
-
-     
-  
+    async updateSesion({idSesion, ...rest}:UpdateSesionRequest){
+      try {
+        const resp = await axios.put(`${this.rootInternet}${this.apiSesion}${this.rootApi}${this.nombre}/update/${idSesion}`,{...rest})
+        return resp.data;
+      } catch (error) {
+        return error;
+      }
+    
     }
 
-    async agregarSolicitud(agregarSolicitudRequest:AgregarSolicitudRequest, idUsuario:string){
-
+    async agregarSolicitud(agregarSolicitudRequest:AgregarSolicitudRequest){
+      try {
+        const resp = await axios.put(`${this.rootInternet}${this.apiSesion}${this.rootApi}${this.nombre}/agregar-solicitudes`,{...agregarSolicitudRequest})
+        return resp.data;
+      } catch (error) {
+        return error;
+      }
       
        
 

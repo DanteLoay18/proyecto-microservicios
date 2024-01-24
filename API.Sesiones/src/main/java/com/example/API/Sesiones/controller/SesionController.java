@@ -143,9 +143,8 @@ public class SesionController {
                     MensajeParametrizados.MENSAJE_CREAR_EXITOSO, solicitudCreada.getId()));
         } catch (Exception ex) {
             logger.error(MensajeParametrizados.MENSAJE_ERROR, ex);
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body(new ApiResponse<>(HttpStatus.INTERNAL_SERVER_ERROR.value(),
-                            MensajeParametrizados.MENSAJE_ERROR_INTERNO_SERVIDOR, null));
+            return ResponseEntity.ok(new ApiResponse<>(HttpStatus.INTERNAL_SERVER_ERROR.value(),
+                                        MensajeParametrizados.MENSAJE_ERROR_INTERNO_SERVIDOR, ex));
         }
     }
 
