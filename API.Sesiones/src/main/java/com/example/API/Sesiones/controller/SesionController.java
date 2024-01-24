@@ -170,4 +170,31 @@ public class SesionController {
                             MensajeParametrizados.MENSAJE_ERROR_INTERNO_SERVIDOR, null));
         }
     }
+
+    @GetMapping("/findSolicitudByIdSesion/{idSesion}")
+    public ResponseEntity<ApiResponse<List<SolicitudResponse>>> findSolicitudByIdSesion(@PathVariable Integer idSesion) {
+        try {
+            SesionModel sesion = sesionService.findById(idSesion);
+
+            if (sesion == null) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                        .body(new ApiResponse<>(HttpStatus.NOT_FOUND.value(),
+                                MensajeParametrizados.MENSAJE_ERROR_NO_ENCONTRADO, null));
+            }
+
+            // Mapear las solicitudes de la sesión a DTOs de respuesta
+            List<SolicitudResponse> solicitudesResponse = sesion.getSolicitudes().stream()
+                    .map(solicitudesMapper::entityToDto)
+                    .collect(Collectors.toList());
+
+            return ResponseEntity.ok(new ApiResponse<>(HttpStatus.OK.value(),
+                    MensajeParametrizados.MENSAJE_MODIFICAR_EXITOSO, solicitudesResponse));
+        } catch (Exception ex) {
+            logger.error(MensajeParametrizados.MENSAJE_ERROR, ex);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(new ApiResponse<>(HttpStatus.INTERNAL_SERVER_ERROR.value(),
+                            MensajeParametrizados.MENSAJE_ERROR_INTERNO_SERVIDOR, null));
+        }
+    }
+
 }
