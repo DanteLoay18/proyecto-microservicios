@@ -36,7 +36,7 @@ public class SolicitudController {
     
 
 
-
+    
     @GetMapping("/getAll")
     public ResponseEntity<ApiResponse<List<SolicitudRequest>>> getAll(){
         try{
