@@ -78,7 +78,7 @@ public class SolicitudController {
             if (solicitud != null) {
                 SolicitudResponse solicitudResponse = solicitudMapper.entityToResponse(solicitud);
                 return ResponseEntity.ok(new ApiResponse<>(HttpStatus.OK.value(),
-                        MensajesParametrizados.MENSAJE_PACIENTE_LISTADOID, solicitudResponse));
+                        "", solicitudResponse));
             } else {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND)
                         .body(new ApiResponse<>(HttpStatus.NOT_FOUND.value(),
@@ -102,7 +102,7 @@ public class SolicitudController {
                 solicitudService.update(existingSolicitud);
 
                 return ResponseEntity.ok(new ApiResponse<>(HttpStatus.OK.value(),
-                        MensajesParametrizados.MENSAJE_PACIENTE_EDITADO_EXITOSO, null));
+                        MensajesParametrizados.MENSAJE_EDITADO_EXITOSO, null));
             } else {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND)
                         .body(new ApiResponse<>(HttpStatus.NOT_FOUND.value(),
@@ -123,7 +123,7 @@ public class SolicitudController {
             if (existingSolicitud != null) {
                 solicitudService.delete(id);
                 return ResponseEntity.ok(new ApiResponse<>(HttpStatus.OK.value(),
-                        MensajesParametrizados.MENSAJE_ELIMINAR_PACIENTE_EXITOSO, null));
+                        MensajesParametrizados.MENSAJE_ELIMINAR_EXITOSO, null));
             } else {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND)
                         .body(new ApiResponse<>(HttpStatus.NOT_FOUND.value(),

@@ -178,8 +178,8 @@ public class SesionController {
         }
     }
 
-    @GetMapping("/findSolicitudByIdSesion/{idSesion}")
-    public ResponseEntity<ApiResponse<List<SolicitudResponse>>> findSolicitudByIdSesion(
+    @GetMapping("/findSesionById/{idSesion}")
+    public ResponseEntity<ApiResponse<?>> findSolicitudByIdSesion(
             @PathVariable Integer idSesion) {
         try {
             SesionModel sesion = sesionService.findById(idSesion);
@@ -189,14 +189,14 @@ public class SesionController {
                         .body(new ApiResponse<>(HttpStatus.NOT_FOUND.value(),
                                 MensajeParametrizados.MENSAJE_ERROR_NO_ENCONTRADO, null));
             }
+            List<SolicitudResponse> solicitudes = sesion.getSolicitudes().stream()
+                                                        .map(solicitudesMapper::entityToDto)
+                                                        .collect(Collectors.toList());
 
-            // Mapear las solicitudes de la sesión a DTOs de respuesta
-            List<SolicitudResponse> solicitudesResponse = sesion.getSolicitudes().stream()
-                    .map(solicitudesMapper::entityToDto)
-                    .collect(Collectors.toList());
+            SesionResponse sesionResponse = sesionMapper.entityToDto(sesion, solicitudes);
 
             return ResponseEntity.ok(new ApiResponse<>(HttpStatus.OK.value(),
-                    MensajeParametrizados.MENSAJE_MODIFICAR_EXITOSO, solicitudesResponse));
+                    MensajeParametrizados.MENSAJE_MODIFICAR_EXITOSO, sesionResponse));
         } catch (Exception ex) {
             logger.error(MensajeParametrizados.MENSAJE_ERROR, ex);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
