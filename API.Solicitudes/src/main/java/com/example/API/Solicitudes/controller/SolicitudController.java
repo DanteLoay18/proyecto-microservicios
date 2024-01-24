@@ -1,4 +1,5 @@
 package com.example.API.Solicitudes.controller;
+
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.API.Solicitudes.Mapper.SolcitudMapper;
@@ -24,11 +25,10 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-
 @RestController
 @RequestMapping("/api/v1/solicitud")
 public class SolicitudController {
-    
+
     @Autowired
     ISolicitudService solicitudService;
 
@@ -37,33 +37,32 @@ public class SolicitudController {
 
     private static final Logger logger = LoggerFactory.getLogger(SolicitudController.class);
 
-    
     @GetMapping("/getAll")
-    public ResponseEntity<ApiResponse<List<SolicitudRequest>>> getAll(){
-        try{
+    public ResponseEntity<ApiResponse<List<SolicitudRequest>>> getAll() {
+        try {
             List<SolicitudModel> usuarios = solicitudService.findAll();
             List<SolicitudRequest> authRequests = usuarios.stream()
-            .map(solicitudMapper::entityToDto)
-            .collect(Collectors.toList());
+                    .map(solicitudMapper::entityToDto)
+                    .collect(Collectors.toList());
             return ResponseEntity.ok(new ApiResponse<>(HttpStatus.OK.value(),
-                "", authRequests));
-        }catch(Exception ex){
+                    "", authRequests));
+        } catch (Exception ex) {
             logger.error(MensajesParametrizados.MENSAJE_ERROR_INTERNO_SERVIDOR, ex);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-            .body(new ApiResponse<>(HttpStatus.INTERNAL_SERVER_ERROR.value(),
-            MensajesParametrizados.MENSAJE_ERROR_INTERNO_SERVIDOR, null));
+                    .body(new ApiResponse<>(HttpStatus.INTERNAL_SERVER_ERROR.value(),
+                            MensajesParametrizados.MENSAJE_ERROR_INTERNO_SERVIDOR, null));
         }
     }
 
     @PostMapping
     public ResponseEntity<?> register(@RequestBody SolicitudRequest request) throws Exception {
-        try{
+        try {
             SolicitudModel solicitudModel = solicitudMapper.dtoTOEntity(request);
 
             solicitudService.add(solicitudModel);
             logger.info(MensajesParametrizados.MENSAJE_CREAR_SOLICITUD_EXITOSO);
             return ResponseEntity.status(HttpStatus.CREATED).body(solicitudModel);
-        }catch(Exception ex){
+        } catch (Exception ex) {
             logger.error(MensajesParametrizados.MENSAJE_ERROR_INTERNO_SERVIDOR, ex);
             return ResponseEntity.status(HttpStatus.OK).body(null);
         }
@@ -89,26 +88,50 @@ public class SolicitudController {
                             MensajesParametrizados.MENSAJE_ERROR_INTERNO_SERVIDOR, null));
         }
     }
+
     @PutMapping("/solicitudUpdate/{id}")
-public ResponseEntity<ApiResponse<SolicitudRequest>> solicitudUpdate(@PathVariable int id, @RequestBody SolicitudRequest request) {
-    try {
-        SolicitudModel existingSolicitud = solicitudService.findById(id);
-        if (existingSolicitud != null) {
-            existingSolicitud = solicitudMapper.dtoTOEntity(request);
-            solicitudService.update(existingSolicitud);
-            SolicitudRequest solicitudRequest = solicitudMapper.entityToDto(existingSolicitud);
-            return ResponseEntity.ok(new ApiResponse<>(HttpStatus.OK.value(),
-                    MensajesParametrizados.MENSAJE_PACIENTE_EDITADO_EXITOSO, solicitudRequest));
-        } else {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                    .body(new ApiResponse<>(HttpStatus.NOT_FOUND.value(),
-                            MensajesParametrizados.usuarioNoEncontradoPorId(id), null));
+    public ResponseEntity<ApiResponse<SolicitudRequest>> solicitudUpdate(@PathVariable int id,
+            @RequestBody SolicitudRequest request) {
+        try {
+            SolicitudModel existingSolicitud = solicitudService.findById(id);
+            if (existingSolicitud != null) {
+                existingSolicitud = solicitudMapper.dtoTOEntity(request);
+                solicitudService.update(existingSolicitud);
+                SolicitudRequest solicitudRequest = solicitudMapper.entityToDto(existingSolicitud);
+                return ResponseEntity.ok(new ApiResponse<>(HttpStatus.OK.value(),
+                        MensajesParametrizados.MENSAJE_PACIENTE_EDITADO_EXITOSO, solicitudRequest));
+            } else {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                        .body(new ApiResponse<>(HttpStatus.NOT_FOUND.value(),
+                                MensajesParametrizados.usuarioNoEncontradoPorId(id), null));
+            }
+        } catch (Exception ex) {
+            logger.error(MensajesParametrizados.MENSAJE_ERROR, ex);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(new ApiResponse<>(HttpStatus.INTERNAL_SERVER_ERROR.value(),
+                            MensajesParametrizados.MENSAJE_ERROR_INTERNO_SERVIDOR, null));
         }
-    } catch (Exception ex) {
-        logger.error(MensajesParametrizados.MENSAJE_ERROR, ex);
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                .body(new ApiResponse<>(HttpStatus.INTERNAL_SERVER_ERROR.value(),
-                        MensajesParametrizados.MENSAJE_ERROR_INTERNO_SERVIDOR, null));
     }
-}
+
+    @DeleteMapping("/solicitudDelete/{id}")
+    public ResponseEntity<ApiResponse<Void>> solicitudDelete(@PathVariable int id) {
+        try {
+            SolicitudModel existingSolicitud = solicitudService.findById(id);
+            if (existingSolicitud != null) {
+                solicitudService.delete(id);
+                return ResponseEntity.ok(new ApiResponse<>(HttpStatus.OK.value(),
+                        MensajesParametrizados.MENSAJE_ELIMINAR_PACIENTE_EXITOSO, null));
+            } else {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                        .body(new ApiResponse<>(HttpStatus.NOT_FOUND.value(),
+                                MensajesParametrizados.usuarioNoEncontradoPorId(id), null));
+            }
+        } catch (Exception ex) {
+            logger.error(MensajesParametrizados.MENSAJE_ERROR, ex);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(new ApiResponse<>(HttpStatus.INTERNAL_SERVER_ERROR.value(),
+                            MensajesParametrizados.MENSAJE_ERROR_INTERNO_SERVIDOR, null));
+        }
+    }
+
 }
