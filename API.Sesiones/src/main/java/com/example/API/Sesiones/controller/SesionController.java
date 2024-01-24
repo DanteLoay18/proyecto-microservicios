@@ -116,7 +116,7 @@ public class SesionController {
         }
     }
 
-    @PostMapping("/agregar-solicitudes")
+    @PutMapping("/agregar-solicitudes")
     public ResponseEntity<ApiResponse<?>> agregarSolicitudes(
             @RequestBody AgregarSolicitudesSesionRequest agregarSolicitudesSesionesRequest) {
         try {
