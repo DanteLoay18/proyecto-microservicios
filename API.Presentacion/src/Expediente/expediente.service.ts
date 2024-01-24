@@ -35,27 +35,36 @@ export class ExpedienteService {
 
   async findExpedienteByBusqueda({page,pageSize,escuela,facultad,numeroExpediente,tipo}:FindByBusquedaPaginatedRequest){
     try {
-      const resp = await axios.get(`${this.rootInternet}${this.apiExpediente}${this.rootApi}${this.nombre}/findExpedientesByBusqueda?Page=${page}&PageSize=${pageSize}&Tipo=${tipo}&Escuela=${escuela}&Facultad=${facultad}&NumeroDeExpediente=${numeroExpediente}`)
+      const urlParams = new URLSearchParams();
+
+      if (page) urlParams.append('Page',""+page);
+      if (pageSize) urlParams.append('PageSize', ""+pageSize);
+      if (escuela) urlParams.append('Escuela', escuela);
+      if (numeroExpediente) urlParams.append('NumeroDeExpediente', numeroExpediente);
+      if (facultad) urlParams.append('Facultad', facultad);
+      if (tipo) urlParams.append('Tipo', ""+tipo);
+
+      const resp = await axios.get(`${this.rootInternet}${this.apiExpediente}${this.rootApi}${this.nombre}/findExpedientesByBusqueda?${urlParams.toString()}`)
       return resp.data;
     } catch (error) {
       return error;
     }
   }
 
-  async createExpediente( idUsuario:string, {tipo, numeroExpediente, escuela, facultad, estudiantes,}:CreateExpedienteRequest){
+  async createExpediente( idUsuario:string, {tipo, numeroExpediente, idEscuela, idFacultad, estudiantes,}:CreateExpedienteRequest){
 
     try {
-      const resp = await axios.post(`${this.rootInternet}${this.apiExpediente}${this.rootApi}${this.nombre}/createExpediente`,{idUsuario, tipo, numeroExpediente, escuela, facultad, estudiantes})
+      const resp = await axios.post(`${this.rootInternet}${this.apiExpediente}${this.rootApi}${this.nombre}/createExpediente`,{idUsuario, tipo, numeroExpediente, idEscuela, idFacultad, estudiantes})
       return resp.data;
     } catch (error) {
       return error;
     }
  }
 
- async updateExpediente( idUsuario:string, {tipo, numeroExpediente, escuela, facultad, estudiantes,idExpediente}:UpdateExpedienteRequest){
+ async updateExpediente( idUsuario:string, {tipo, numeroExpediente, idEscuela, idFacultad, estudiantes,idExpediente}:UpdateExpedienteRequest){
 
     try {
-      const resp = await axios.put(`${this.rootInternet}${this.apiExpediente}${this.rootApi}${this.nombre}/updateExpediente`,{idUsuario, tipo,idExpediente, numeroExpediente, escuela, facultad, estudiantes})
+      const resp = await axios.put(`${this.rootInternet}${this.apiExpediente}${this.rootApi}${this.nombre}/updateExpediente`,{idUsuario, tipo,idExpediente, numeroExpediente, idEscuela, idFacultad, estudiantes})
       return resp.data;
     } catch (error) {
       return error;
