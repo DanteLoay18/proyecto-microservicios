@@ -39,7 +39,6 @@ import com.example.API.Sesiones.constants.MensajeParametrizados;
 @RestController
 @RequestMapping("/api/v1/sesion")
 public class SesionController {
-    
 
     @Autowired
     ISesionService sesionService;
@@ -63,42 +62,43 @@ public class SesionController {
     SesionMessagePublish messageEvent;
 
     private static final Logger logger = LoggerFactory.getLogger(SesionController.class);
-    
+
     @GetMapping("/getAll")
-    public ResponseEntity<ApiResponse<List<SesionResponse>>> getAll(){
-        try{
+    public ResponseEntity<ApiResponse<List<SesionResponse>>> getAll() {
+        try {
             List<SesionModel> sesiones = sesionService.findAll();
 
             List<SolicitudResponse> solicitudes = sesiones.stream()
-                .flatMap(sesion -> sesion.getSolicitudes().stream()
-                    .map(solicitudesMapper::entityToDto))
-                .collect(Collectors.toList());
-            
-            List<SesionResponse> sesionesRequest = sesiones.stream()
-                .map(sesion -> {
-                    List<SolicitudResponse> solicitudesDeSesion = solicitudes.stream()
-                        .filter(solicitud -> solicitud.getIdSesion().equals(sesion.getId()))
-                        .collect(Collectors.toList());
-            
-                    return sesionMapper.entityToDto(sesion, solicitudesDeSesion);
-                })
-                .collect(Collectors.toList());
+                    .flatMap(sesion -> sesion.getSolicitudes().stream()
+                            .map(solicitudesMapper::entityToDto))
+                    .collect(Collectors.toList());
 
-            return ResponseEntity.ok(new ApiResponse<>(HttpStatus.OK.value(),"", sesionesRequest));
-        }catch(Exception ex){
+            List<SesionResponse> sesionesRequest = sesiones.stream()
+                    .map(sesion -> {
+                        List<SolicitudResponse> solicitudesDeSesion = solicitudes.stream()
+                                .filter(solicitud -> solicitud.getIdSesion().equals(sesion.getId()))
+                                .collect(Collectors.toList());
+
+                        return sesionMapper.entityToDto(sesion, solicitudesDeSesion);
+                    })
+                    .collect(Collectors.toList());
+
+            return ResponseEntity.ok(new ApiResponse<>(HttpStatus.OK.value(), "", sesionesRequest));
+        } catch (Exception ex) {
             logger.error(MensajeParametrizados.MENSAJE_ERROR, ex);
-            return ResponseEntity.status(HttpStatus.OK)
-            .body(new ApiResponse<>(HttpStatus.INTERNAL_SERVER_ERROR.value(),
-                "Error al procesar la solicitud", null));
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(new ApiResponse<>(HttpStatus.INTERNAL_SERVER_ERROR.value(),
+                            "Error al procesar la solicitud", null));
         }
     }
 
     @PostMapping("/crear-sesion")
-    public ResponseEntity<ApiResponse<?>> crearSesion(@RequestBody CreateSesionRequest createSesionRequest){
-        try{
-            MiembroComisionModel miembroComisionModel = miembroComisionMapper.createRequestToEntity(createSesionRequest);
+    public ResponseEntity<ApiResponse<?>> crearSesion(@RequestBody CreateSesionRequest createSesionRequest) {
+        try {
+            MiembroComisionModel miembroComisionModel = miembroComisionMapper
+                    .createRequestToEntity(createSesionRequest);
 
-            MiembroComisionModel miembroComisionCreada = miembroComisionService.add(miembroComisionModel);   
+            MiembroComisionModel miembroComisionCreada = miembroComisionService.add(miembroComisionModel);
 
             SesionModel sesionModel = sesionMapper.createRequestToEntity(createSesionRequest, miembroComisionCreada);
 
@@ -106,45 +106,52 @@ public class SesionController {
 
             logger.info(MensajeParametrizados.MENSAJE_CREAR_EXITOSO);
 
-            return ResponseEntity.ok(new ApiResponse<>(HttpStatus.OK.value(),MensajeParametrizados.MENSAJE_CREAR_EXITOSO, sesionCreada.getId()));
-        }catch(Exception ex){
+            return ResponseEntity.ok(new ApiResponse<>(HttpStatus.OK.value(),
+                    MensajeParametrizados.MENSAJE_CREAR_EXITOSO, sesionCreada.getId()));
+        } catch (Exception ex) {
             logger.error(MensajeParametrizados.MENSAJE_ERROR, ex);
-            return ResponseEntity.status(HttpStatus.OK)
-            .body(new ApiResponse<>(HttpStatus.INTERNAL_SERVER_ERROR.value(),
-            MensajeParametrizados.MENSAJE_ERROR_INTERNO_SERVIDOR, null));
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(new ApiResponse<>(HttpStatus.INTERNAL_SERVER_ERROR.value(),
+                            MensajeParametrizados.MENSAJE_ERROR_INTERNO_SERVIDOR, null));
         }
     }
 
-    @PutMapping("/agregar-solicitudes")
-    public ResponseEntity<ApiResponse<?>> agregarSolicitudes(@RequestBody AgregarSolicitudesSesionRequest agregarSolicitudesSesionesRequest){
-        try{
+    @PostMapping("/agregar-solicitudes")
+    public ResponseEntity<ApiResponse<?>> agregarSolicitudes(
+            @RequestBody AgregarSolicitudesSesionRequest agregarSolicitudesSesionesRequest) {
+        try {
             SesionModel sesionEncontrada = this.sesionService.findById(agregarSolicitudesSesionesRequest.getIdSesion());
 
-            if(sesionEncontrada == null){
-                return ResponseEntity.ok(new ApiResponse<>(HttpStatus.NOT_FOUND.value(),MensajeParametrizados.MENSAJE_ERROR_NO_ENCONTRADO,null ));
+            if (sesionEncontrada == null) {
+                return ResponseEntity.ok(new ApiResponse<>(HttpStatus.NOT_FOUND.value(),
+                        MensajeParametrizados.MENSAJE_ERROR_NO_ENCONTRADO, null));
             }
 
-            SolicitudesModel solicitudEntity = solicitudesMapper.agregarSolicitudesRequestToEntity(agregarSolicitudesSesionesRequest, sesionEncontrada);
+            SolicitudesModel solicitudEntity = solicitudesMapper
+                    .agregarSolicitudesRequestToEntity(agregarSolicitudesSesionesRequest, sesionEncontrada);
 
-            SolicitudesModel solicitudCreada = solicitudesService.add(solicitudEntity);  
-            
-            SolicitudDto solicitudDto = solicitudesMapper.agregarSolicitudesRequestToEntity(agregarSolicitudesSesionesRequest);
+            SolicitudesModel solicitudCreada = solicitudesService.add(solicitudEntity);
+
+            SolicitudDto solicitudDto = solicitudesMapper
+                    .agregarSolicitudesRequestToEntity(agregarSolicitudesSesionesRequest);
 
             messageEvent.sendAgregarSolicitudEvent(solicitudDto);
 
             logger.info(MensajeParametrizados.MENSAJE_CREAR_EXITOSO);
 
-            return ResponseEntity.ok(new ApiResponse<>(HttpStatus.OK.value(),MensajeParametrizados.MENSAJE_CREAR_EXITOSO, solicitudCreada.getId() ));
-        }catch(Exception ex){
+            return ResponseEntity.ok(new ApiResponse<>(HttpStatus.CREATED.value(),
+                    MensajeParametrizados.MENSAJE_CREAR_EXITOSO, solicitudCreada.getId()));
+        } catch (Exception ex) {
             logger.error(MensajeParametrizados.MENSAJE_ERROR, ex);
-            return ResponseEntity.status(HttpStatus.OK)
-            .body(new ApiResponse<>(HttpStatus.INTERNAL_SERVER_ERROR.value(),
-            MensajeParametrizados.MENSAJE_ERROR_INTERNO_SERVIDOR, null));
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(new ApiResponse<>(HttpStatus.INTERNAL_SERVER_ERROR.value(),
+                            MensajeParametrizados.MENSAJE_ERROR_INTERNO_SERVIDOR, null));
         }
     }
-    
+
     @PutMapping("/update/{id}")
-    public ResponseEntity<ApiResponse<SesionResponse>> updateSesion(@PathVariable Integer id, @RequestBody CreateSesionRequest updateSesionRequest) {
+    public ResponseEntity<ApiResponse<SesionResponse>> updateSesion(@PathVariable Integer id,
+            @RequestBody CreateSesionRequest updateSesionRequest) {
         try {
             SesionModel existingSesion = sesionService.findById(id);
 
@@ -172,7 +179,8 @@ public class SesionController {
     }
 
     @GetMapping("/findSolicitudByIdSesion/{idSesion}")
-    public ResponseEntity<ApiResponse<List<SolicitudResponse>>> findSolicitudByIdSesion(@PathVariable Integer idSesion) {
+    public ResponseEntity<ApiResponse<List<SolicitudResponse>>> findSolicitudByIdSesion(
+            @PathVariable Integer idSesion) {
         try {
             SesionModel sesion = sesionService.findById(idSesion);
 

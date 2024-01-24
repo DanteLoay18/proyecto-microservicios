@@ -1,8 +1,6 @@
 import { Injectable, } from '@nestjs/common';
 import { CreateSolicitudRequest } from './dto/create-solicitud.request';
 import { UpdateSolicitudRequest } from './dto/update-solicitud.request';
-import { tipoSolicitud } from './data/tipoSolicitud';
-import { CambiarEstadoRequest } from './dto/cambiar-estado-solicitud.request';
 import axios from 'axios';
 
 @Injectable()

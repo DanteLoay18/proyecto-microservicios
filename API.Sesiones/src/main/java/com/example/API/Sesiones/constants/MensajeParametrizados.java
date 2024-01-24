@@ -7,8 +7,8 @@ public class MensajeParametrizados {
     public static final String MENSAJE_ERROR_NO_ENCONTRADO = "No se encontro el registro. ";
     public static final String MENSAJE_ERROR_BASE_DATOS = "Error en la base de datos: ";
     public static final String MENSAJE_ERROR_INTERNO_SERVIDOR = "Error interno del servidor: ";
-    public static final String MENSAJE_ELIMINAR_PACIENTE_EXITOSO = "PACIENTE eliminado exitosamente";
-    public static final String MENSAJE_ERROR = "Error del servidor ";
+    public static final String MENSAJE_ELIMINAR_PACIENTE_EXITOSO = "Registro eliminado exitosamente. ";
+    public static final String MENSAJE_ERROR = "Error del servidor. ";
 
 
     public static String errorBaseDatos(String mensajeError) {
