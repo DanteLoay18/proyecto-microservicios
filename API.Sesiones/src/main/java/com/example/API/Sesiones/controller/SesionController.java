@@ -116,7 +116,7 @@ public class SesionController {
         }
     }
 
-    @PutMapping("/agregar-solicitudes")
+    @PostMapping("/agregar-solicitudes")
     public ResponseEntity<ApiResponse<?>> agregarSolicitudes(
             @RequestBody AgregarSolicitudesSesionRequest agregarSolicitudesSesionesRequest) {
         try {
@@ -139,7 +139,7 @@ public class SesionController {
 
             logger.info(MensajeParametrizados.MENSAJE_CREAR_EXITOSO);
 
-            return ResponseEntity.ok(new ApiResponse<>(HttpStatus.OK.value(),
+            return ResponseEntity.ok(new ApiResponse<>(HttpStatus.CREATED.value(),
                     MensajeParametrizados.MENSAJE_CREAR_EXITOSO, solicitudCreada.getId()));
         } catch (Exception ex) {
             logger.error(MensajeParametrizados.MENSAJE_ERROR, ex);
