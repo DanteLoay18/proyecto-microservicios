@@ -36,7 +36,7 @@ public class SolicitudController {
     
 
 
-    
+
     @GetMapping("/getAll")
     public ResponseEntity<ApiResponse<List<SolicitudRequest>>> getAll(){
         try{
@@ -45,12 +45,12 @@ public class SolicitudController {
             .map(solicitudMapper::entityToDto)
             .collect(Collectors.toList());
             return ResponseEntity.ok(new ApiResponse<>(HttpStatus.OK.value(),
-                "Consulta de listado de Usuario exitosa", authRequests));
+                "", authRequests));
         }catch(Exception ex){
-            logger.error(MensajesParametrizados.MENSAJE_ERROR, ex);
+            logger.error(MensajesParametrizados.MENSAJE_ERROR_INTERNO_SERVIDOR, ex);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
             .body(new ApiResponse<>(HttpStatus.INTERNAL_SERVER_ERROR.value(),
-                "Error al procesar la solicitud", null));
+            MensajesParametrizados.MENSAJE_ERROR_INTERNO_SERVIDOR, null));
         }
     }
 
@@ -63,7 +63,7 @@ public class SolicitudController {
             logger.info(MensajesParametrizados.MENSAJE_CREAR_SOLICITUD_EXITOSO);
             return ResponseEntity.status(HttpStatus.CREATED).body(solicitudModel);
         }catch(Exception ex){
-            logger.error(MensajesParametrizados.MENSAJE_CREAR_PACIENTE_NOEXITOSO, ex);
+            logger.error(MensajesParametrizados.MENSAJE_ERROR_INTERNO_SERVIDOR, ex);
             return ResponseEntity.status(HttpStatus.OK).body(null);
         }
     }
