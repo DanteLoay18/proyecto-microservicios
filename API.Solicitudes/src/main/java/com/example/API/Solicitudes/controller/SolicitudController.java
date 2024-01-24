@@ -58,13 +58,12 @@ public class SolicitudController {
     public ResponseEntity<?> register(@RequestBody SolicitudRequest request) throws Exception {
         try {
             SolicitudModel solicitudModel = solicitudMapper.dtoTOEntity(request);
-
             solicitudService.add(solicitudModel);
             logger.info(MensajesParametrizados.MENSAJE_CREAR_SOLICITUD_EXITOSO);
             return ResponseEntity.status(HttpStatus.CREATED).body(solicitudModel);
         } catch (Exception ex) {
             logger.error(MensajesParametrizados.MENSAJE_ERROR_INTERNO_SERVIDOR, ex);
-            return ResponseEntity.status(HttpStatus.OK).body(null);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
         }
     }
 
@@ -134,6 +133,4 @@ public class SolicitudController {
         }
     }
 
-
-    
 }
