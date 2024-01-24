@@ -18,32 +18,20 @@ export class CreateSolicitudRequest{
     @ApiProperty({
         description:'id escuela Solicitud'
     })
-    @IsUUID()
-    escuela:string;
+    @IsNumber()
+    escuela:number;
 
     @ApiProperty({
         description:'id facultad Solicitud'
     })
-    @IsUUID()
-    facultad:string;
+    @IsNumber()
+    facultad:number;
 
     @ApiProperty({
         description:'comentario Solicitud'
     })
     @IsString()
     comentario: string;
-
-    @ApiProperty({
-        description:'Nombre Archivo Solicitud',
-    })
-    @IsString()
-    nombreArchivo: string;
-
-    @ApiProperty({
-        description:'documento url Solicitud',
-    })
-    @IsString()
-    documento: string;
 
     
 }

@@ -1,7 +1,7 @@
 export class SolicitudRoutes{
     static Solicitud="solicitud";
     static SolicitudesGetAllPaginatedNoRevisados="findAllSolicitudesPaginatedNoRevisados";
-    static SolicitudesGetAllPaginated="findAllSolicitudesPaginated";
+    static SolicitudesGetAll="findAllSolicitudes";
     static SolicitudById="findSolicitudById/:idSolicitud";
     static SolicitudByIdAndExpediente="findSolicitudConExpedienteById/:idSolicitud";
     static FiltrarTipoSolicitud="filtrarTipoSolicitud/:tipoExpediente";

@@ -1,81 +1,67 @@
-import { Injectable,Inject, BadRequestException } from '@nestjs/common';
-import { ClientProxy } from '@nestjs/microservices';
-
-import { map, tap,lastValueFrom, mergeMap, } from 'rxjs';
-import { UsuarioService } from 'src/Auth/usuario.service';
-import { FacultadService } from 'src/Facultad/facultad.service';
-import { v4 } from 'uuid';
-import { tipoDescripcion } from './enums/tipoExpediente.enums';
-import { S3 } from 'aws-sdk';
+import { Injectable, } from '@nestjs/common';
 import { CreateSolicitudRequest } from './dto/create-solicitud.request';
 import { UpdateSolicitudRequest } from './dto/update-solicitud.request';
 import { tipoSolicitud } from './data/tipoSolicitud';
 import { CambiarEstadoRequest } from './dto/cambiar-estado-solicitud.request';
-import { ExpedienteService } from 'src/Expediente/expediente.service';
+import axios from 'axios';
 
 @Injectable()
 export class SolicitudService {
-  bucketName= process.env.S3_BUCKET_NAME;
-  s3= new S3({
-    accessKeyId:process.env.S3_ACCESS_KEY,
-    secretAccessKey:process.env.S3_SECRET_ACCESS_KEY,
-    region:"us-east-1"
-  })
-
-  constructor(
-    @Inject('SOLICITUD_SERVICE_TRANSPORT') private clienteUser: ClientProxy,
-    private readonly usuarioService:UsuarioService,
-    private readonly facultadService:FacultadService,
-    private readonly expedienteService:ExpedienteService
-
-    ) {}
   
-  async findAllPaginatedNoRevisado(page:number, pageSize:number, idUsuario:string){
+  private apiSolicitud = process.env.API_SOLICITUD;
+  private rootInternet = "http://";
+  private rootApi = "/api/v1";
+  private nombre = "/solicitud";
+
+  async findAll(){
+    try {
+      const resp = await axios.get(`${this.rootInternet}${this.apiSolicitud}${this.rootApi}${this.nombre}/getAll`)
+      return resp.data;
+    } catch (error) {
+      return error;
+    }
+  }
+
+  async findOneById(idSolicitud:string){
+    try {
+      const resp = await axios.get(`${this.rootInternet}${this.apiSolicitud}${this.rootApi}${this.nombre}/findSolicitudById/${idSolicitud}`)
+      return resp.data;
+    } catch (error) {
+      return error;
+    }
+  }
+
+
+  async createSolicitud(createSolicitudRequest:CreateSolicitudRequest){
+
+    try {
+      const resp = await axios.post(`${this.rootInternet}${this.apiSolicitud}${this.rootApi}${this.nombre}`,{...createSolicitudRequest})
+      return resp.data;
+    } catch (error) {
+      return error;
+    }
+
     
   }
 
-  async findAllPaginated(page:number, pageSize:number,idExpediente:string, idUsuario:string){
-
+  async updateSolicitud({idSolicitud,...rest}:UpdateSolicitudRequest){
     
-  }
-
- 
-  
-  findOneByIdAndExpediente(idDocente:string){
-    
-  }
-
-  findOneByIdSolicitudExpediente(idSolicitud:string){
-    
-  }
-
-  findOneById(idSolicitud:string){
-   
-  }
-
-  filtrarTipoSolicitud(tipoExpediente:number){
-    return tipoSolicitud.filter((tipo)=>tipo.tipoExpediente===tipoExpediente);
-  }
-
-
-  async createSolicitud(createSolicitudRequest:CreateSolicitudRequest, idUsuario:string){
-
-    
-
-    
-  }
-
-  async updateSolicitud(updateSolicitudRequest:UpdateSolicitudRequest, idUsuario:string){
-
+    try {
+      const resp = await axios.put(`${this.rootInternet}${this.apiSolicitud}${this.rootApi}${this.nombre}/solicitudUpdate/${idSolicitud}`,{...rest})
+      return resp.data;
+    } catch (error) {
+      return error;
+    }
    
   }
   
-
-  async cambiarEstadoSolicitud(cambiarEstadoRequest:CambiarEstadoRequest, idUsuario:string){
-
-  }
-  async deleteSolicitud(idSolicitud:string, idUsuario:string){
-   
+  async deleteSolicitud(idSolicitud:string){
+    try {
+      const resp = await axios.delete(`${this.rootInternet}${this.apiSolicitud}${this.rootApi}${this.nombre}/solicitudDelete/${idSolicitud}`)
+      return resp.data;
+    } catch (error) {
+      return error;
+    }
   }
   
 

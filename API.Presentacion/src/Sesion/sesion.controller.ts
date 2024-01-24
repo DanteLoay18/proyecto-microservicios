@@ -20,21 +20,12 @@ export class SesionController {
     
   constructor(private readonly sesionService: SesionService) {}
 
-  @ApiInternalServerErrorResponse({ description: 'Error server'})
-  @ApiBearerAuth() 
-  @RoleProtected(ValidRoles.encargado)
-  @UseGuards(AuthGuard(), UserRoleGuard)
-  @Get(SesionRoutes.FindUltimaIteracionMiembroComision)
-  async findUltimaIteracionMiembroComision(@GetUser("id") idUsuario:string) {
-      return  this.sesionService.findUltimoIteracionMiembroComision(idUsuario);
-      
-  }
 
   @ApiInternalServerErrorResponse({ description: 'Error server'})
   @ApiBearerAuth() 
   @RoleProtected(ValidRoles.encargado)
   @UseGuards(AuthGuard(), UserRoleGuard)
-  @Get(SesionRoutes.SesionsGetAllPaginated)
+  @Get(SesionRoutes.SesionsGetAll)
   async findAllExpedientes(@Query() paginationDto:SesionesPaginatedRequest, @GetUser("id") idUsuario:string) {
       return  this.sesionService.findAllPaginated(paginationDto.page, paginationDto.pageSize, idUsuario);
       
@@ -48,28 +39,6 @@ export class SesionController {
   async findById(@Param('idSesion') idSesion:string) {
 
     return  this.sesionService.findOneById(idSesion);
-      
-  }
-
-  @ApiInternalServerErrorResponse({ description: 'Error server'})
-  @ApiBearerAuth() 
-  @RoleProtected(ValidRoles.encargado)
-  @UseGuards(AuthGuard(), UserRoleGuard)
-  @Get(SesionRoutes.SesionSolicitudesById)
-  async findSolicitudesBySesion( @Query() paginationDto:FindSolicitudesBySesionRequest,) {
-
-    return  this.sesionService.findSolicitudesBySesion(paginationDto.idSesion, paginationDto.page, paginationDto.pageSize);
-      
-  }
-
-  @ApiInternalServerErrorResponse({ description: 'Error server'})
-  @ApiBearerAuth() 
-  @RoleProtected(ValidRoles.encargado)
-  @UseGuards(AuthGuard(), UserRoleGuard)
-  @Get(SesionRoutes.SesionsByBusqueda)
-  async findByBusqueda(@Query() findByBusqueda:FindByBusquedaPaginatedRequest, @GetUser("id") idUsuario:string) {
-
-    return  this.sesionService.findByBusqueda(findByBusqueda, idUsuario);
       
   }
 
