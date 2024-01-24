@@ -36,7 +36,7 @@ public class SesionConsumerListener {
 
         solicitud.setEsAceptado(true);
         solicitud.setEsRevisado(true);
-
+        solicitud.setObservacion(data.getObservacion());
         // log.info("Register Transaction {} ", data.getId_operation());
         service.update(solicitud);
 
