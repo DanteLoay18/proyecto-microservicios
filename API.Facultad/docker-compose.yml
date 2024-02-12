@@ -1,0 +1,8 @@
+version: '3.4'
+
+services:
+  api.facultad:
+    image: ${DOCKER_REGISTRY-}apifacultad
+    build:
+      context: .
+      dockerfile: API.Facultad/Dockerfile
